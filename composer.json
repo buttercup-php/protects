@@ -1,0 +1,15 @@
+{
+    "name": "buttercup/protects",
+    "description": "Event sourced aggregates that protect invariants",
+    "minimum-stability": "dev",
+    "license": "MIT",
+    "homepage": "https://github.com/buttercup-php",
+    "authors": [
+        {
+            "name": "Mathias Verraes",
+            "email": "mathias@verraes.net",
+            "homepage": "http://verraes.net"
+        }
+    ],
+    "keywords": ["domain-driven design", "cqrs", "event sourcing"]
+}
