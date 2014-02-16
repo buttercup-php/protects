@@ -1,0 +1,76 @@
+{
+    "_readme": [
+        "This file locks the dependencies of your project to a known state",
+        "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
+    ],
+    "hash": "1d379730ab37c89ae7f2b9f96bef08f5",
+    "packages": [
+
+    ],
+    "packages-dev": [
+        {
+            "name": "mathiasverraes/classfunctions",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/mathiasverraes/classfunctions.git",
+                "reference": "5fd083b56b1336d10e39b841d6e6acc365337b92"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/mathiasverraes/classfunctions/zipball/5fd083b56b1336d10e39b841d6e6acc365337b92",
+                "reference": "5fd083b56b1336d10e39b841d6e6acc365337b92",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.4"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "*"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0-dev"
+                }
+            },
+            "autoload": {
+                "psr-0": {
+                    "Verraes": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Mathias Verraes",
+                    "email": "mathias@verraes.net",
+                    "homepage": "http://verraes.net",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Functions to manipulate class names",
+            "homepage": "http://verraes.net",
+            "keywords": [
+                "classes",
+                "utilities"
+            ],
+            "time": "2014-02-15 14:52:59"
+        }
+    ],
+    "aliases": [
+
+    ],
+    "minimum-stability": "dev",
+    "stability-flags": [
+
+    ],
+    "platform": [
+
+    ],
+    "platform-dev": [
+
+    ]
+}

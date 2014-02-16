@@ -11,5 +11,15 @@
             "homepage": "http://verraes.net"
         }
     ],
-    "keywords": ["domain-driven design", "cqrs", "event sourcing"]
+    "keywords": ["domain-driven design", "cqrs", "event sourcing"],
+
+    "require-dev": {
+        "mathiasverraes/classfunctions": "1.*"
+    },
+    "autoload": {
+        "psr-4": {
+            "Buttercup\\": "src/Buttercup",
+            "AcmeShop\\": "examples/AcmeShop"
+        }
+    }
 }
