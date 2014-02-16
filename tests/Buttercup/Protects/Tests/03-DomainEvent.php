@@ -38,7 +38,7 @@ final class ProductWasAddedToBasket implements DomainEvent
     private $productId;
     private $productName;
 
-    // Notice how all the properties go in the constructor
+    // Notice how all the properties go in the constructor.
     public function __construct(BasketId $basketId, ProductId $productId, $productName)
     {
         $this->basketId = $basketId;
