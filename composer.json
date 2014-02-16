@@ -18,8 +18,7 @@
     },
     "autoload": {
         "psr-4": {
-            "Buttercup\\": "src/Buttercup",
-            "AcmeShop\\": "examples/AcmeShop"
+            "Buttercup\\": ["src/Buttercup", "tests/Buttercup"]
         }
     }
 }

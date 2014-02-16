@@ -1,8 +1,8 @@
 <?php
-// We use a Value Object to identify an Aggregate. This prevents the sort of bugs where id's got mixed up, and is a nice
+// We use a **Value Object** to identify an **Aggregate**. This prevents the sort of bugs where id's got mixed up, and is a nice
 // and explicit way of dealing with id's anyway. You can use any kind of id's, as long as they
-// implement `IdentifiesAggregate`. UUID's are recommended, because they are universally unique, and they can be generated
-// in the client. Some infrastructure, such as an Event Store, might require UUID's exclusively, so they can optimize
+// implement `IdentifiesAggregate`. **UUID's** are recommended, because they are universally unique, and they can be generated
+// in the client. Some infrastructure, such as an **Event Store**, might require UUID's exclusively, so they can optimize
 // for it.
 namespace Buttercup\Protects\Tests;
 use Buttercup\Protects\IdentifiesAggregate;
@@ -13,7 +13,6 @@ require_once __DIR__ . '/../../../../vendor/autoload.php';
 final class BasketId implements IdentifiesAggregate
 {
     private $basketId;
-
     // You are free to extend from an abstract class, and to implement the constructor as you wish. For example, you
     // could add some validation in there.
     public function __construct($basketId)
