@@ -2,7 +2,7 @@
 
 namespace Buttercup\Protects;
 
-interface AggregateRoot extends ExposesRecordedEvents, IsEventSourced, TracksChanges
+interface AggregateRoot extends RecordsEvents, IsEventSourced, TracksChanges
 {
 
 } 

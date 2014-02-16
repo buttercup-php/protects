@@ -9,7 +9,7 @@ interface IsEventSourced
 {
     /**
      * @param AggregateHistory $aggregateHistory
-     * @return ExposesRecordedEvents
+     * @return RecordsEvents
      */
     public static function reconstituteFrom(AggregateHistory $aggregateHistory);
 
