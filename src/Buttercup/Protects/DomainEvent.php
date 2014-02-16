@@ -13,10 +13,4 @@ interface DomainEvent
      * @return IdentifiesAggregate
      */
     public function getAggregateId();
-
-    /**
-     * The version that the Aggregate was at the time this event was raised.
-     * @return int
-     */
-    public function getAggregateVersion();
 }
