@@ -48,11 +48,11 @@ final class BasketId implements IdentifiesAggregate
 
 // Sample usage:
 $basketId = BasketId::fromString('12345678-90ab-cdef-1234-567890abcedf1234');
-assert($basketId instanceof IdentifiesAggregate);
 // Casting to string gives you the original string back:
-assert((string) $basketId == '12345678-90ab-cdef-1234-567890abcedf1234');
+it("should cast to string",
+    (string) $basketId == '12345678-90ab-cdef-1234-567890abcedf1234');
 // Testing equality:
-assert((new BasketId('same'))
-        ->equals(new BasketId('same')));
-assert( !(new BasketId('other'))
-        ->equals(new BasketId('same')));
+it("should equal instances with the same type and value",
+    (new BasketId('same'))->equals(new BasketId('same')));
+it("should not equal instances with a different value",
+    !(new BasketId('other'))->equals(new BasketId('same')));

@@ -89,10 +89,12 @@ final class ProductWasRemovedFromBasket implements DomainEvent
     }
 }
 
-// Let's test one of our Domain Events. Did we mention the documentation doubles as test suite?
+// Let's test one of our Domain Events. Did we mention this documentation doubles as test suite?
 $event = new ProductWasAddedToBasket(new BasketId('BAS1'), new ProductId('PRO1'), "The Princess Bride");
-assert($event->getAggregateId()
-        ->equals(new BasketId('BAS1')));
-assert($event->getProductId()
-        ->equals(new ProductId('PRO1')));
-assert($event->getProductName() == "The Princess Bride");
+it('should equal another instance with the same value',
+    $event->getAggregateId()->equals(new BasketId('BAS1')));
+it("should expose a ProductId",
+    $event->getProductId()->equals(new ProductId('PRO1')));
+it("should expose a productName",
+    $event->getProductName() == "The Princess Bride");
+
