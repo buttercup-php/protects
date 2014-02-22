@@ -7,7 +7,7 @@ namespace Buttercup\Protects\Tests;
 use Buttercup\Protects\DomainEvent;
 use Buttercup\Protects\Tests\Misc\ProductId;
 
-require_once '02-IdentifiesAggregate.php';
+require_once '01-IdentifiesAggregate.php';
 
 // For the sake of the example, we imagine a simple e-commerce system. We're very interested in what people put in their
 // shopping basket, and what they take out. Because every shopping session starts with a new basket, we're interested in
