@@ -7,6 +7,9 @@
 // a articular domain anyway.
 namespace Buttercup\Protects\Tests;
 
+use Buttercup\Protects\DomainEvent;
+use Buttercup\Protects\DomainEvents;
+use Buttercup\Protects\RecordsEvents;
 use Buttercup\Protects\Tests\Misc\ProductId;
 use Exception;
 
@@ -16,56 +19,70 @@ require_once __DIR__ . '/../../../../vendor/autoload.php';
 // Let's write a test that proves that the a `BasketLimitReached` exception is thrown when we try to violate the invariant.
 $test = function() {
     $basket = BasketV2::create(BasketId::generate());
-    $basket->addProduct(new ProductId(1));
-    $basket->addProduct(new ProductId(2));
-    $basket->addProduct(new ProductId(3));
+    $basket->addProduct(new ProductId('TPB1'), "The Princess Bride");
+    $basket->addProduct(new ProductId('TPB2'), "The book");
+    $basket->addProduct(new ProductId('TPB3'), "The DVD");
     it("should disallow adding a fourth product",
         throws('Buttercup\Protects\Tests\BasketLimitReached', function () use($basket) {
-            $basket->addProduct(new ProductId(4));
+            $basket->addProduct(new ProductId('TPB4'), "The video game");
         })
     );
 };
 
-// Here's the simplest possible implementation of this invariant. We're ignoring everything we had in the previous
-// chapter about `RecordsEvents`, for the sake of the example, just to focus on the invariant here.
-final class BasketV2
+// (The V2 is just to prevent naming collisions, and can be ignored.)
+final class BasketV2 implements RecordsEvents
 {
-    private $products = [];
+    private $productCount;
 
-    public function addProduct(ProductId $productId)
+    public static function create(BasketId $basketId)
     {
-        // A guard protects the invariant.
-        $this->guardProductLimit();
-        // If no exception was thrown, we keep a list of products.
-        $this->products[] = $productId;
+        $basket = new BasketV2($basketId);
+        $basket->recordThat(
+            new BasketWasCreated($basketId)
+        );
+        // A new basket doesn't have any products yet. It's good to set the initial state explicitly here.
+        $basket->productCount = 0;
+        return $basket;
     }
 
-    // We could have inlined this code, but having it in a separate method, makes the code more readable and clearly
+    public function addProduct(ProductId $productId, $name)
+    {
+        // A guard protects the invariant, and throws if it is violated
+        $this->guardProductLimit();
+        // If no exception was thrown, we record the event, and increment the productCount.
+        $this->recordThat(
+            new ProductWasAddedToBasket($this->basketId, $productId, $name)
+        );
+        ++$this->productCount;
+    }
+
+    // We could have inlined this, but having it in a separate method, makes the code more readable and clearly
     // states the purpose.
     private function guardProductLimit()
     {
-        if (count($this->products) >= 3) {
+        if ($this->productCount >= 3) {
             throw new BasketLimitReached;
         }
     }
 
-    // Some code from the previous chapter, but of course you already know this stuff.
-    /**
-     * @var BasketId
-     */
+    public function removeProduct(ProductId $productId)
+    {
+        $this->recordThat(
+            new ProductWasRemovedFromBasket($this->basketId, $productId)
+        );
+        // And of course we decrement the count again when removing a Product.
+        --$this->productCount;
+    }
+
+    // The rest of the code is the same as the previous chapter.
     private $basketId;
-
-    private function __construct(BasketId $basketId)
-    {
-        $this->basketId = $basketId;
-    }
-
-    public static function create(BasketId $basketId)
-    {
-        return new BasketV2($basketId);
-    }
-
+    private $latestRecordedEvents = [];
+    private function __construct(BasketId $basketId) { $this->basketId = $basketId; }
+    private function recordThat(DomainEvent $domainEvent) { $this->latestRecordedEvents[] = $domainEvent; }
+    public function getRecordedEvents() { return new DomainEvents($this->latestRecordedEvents); }
+    public function clearRecordedEvents() { $this->latestRecordedEvents = []; }
 }
+
 // I like to have very specific exceptions for each possible invariant.
 final class BasketLimitReached extends Exception {}
 
