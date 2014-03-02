@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+  <title>03-RecordsEvents.php</title>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <meta name="viewport" content="width=device-width, target-densitydpi=160dpi, initial-scale=1.0; maximum-scale=1.0; user-scalable=0;">
+  <link rel="stylesheet" media="all" href="docco.css" />
+</head>
+<body>
+  <div id="container">
+    <div id="background"></div>
+    
+      <ul id="jump_to">
+        <li>
+          <a class="large" href="javascript:void(0);">Jump To &hellip;</a>
+          <a class="small" href="javascript:void(0);">+</a>
+          <div id="jump_wrapper">
+          <div id="jump_page">
+            
+              
+              <a class="source" href="01-IdentifiesAggregate.html">
+                01-IdentifiesAggregate.php
+              </a>
+            
+              
+              <a class="source" href="02-DomainEvent.html">
+                02-DomainEvent.php
+              </a>
+            
+              
+              <a class="source" href="03-RecordsEvents.html">
+                03-RecordsEvents.php
+              </a>
+            
+              
+              <a class="source" href="04-ProtectsInvariants.html">
+                04-ProtectsInvariants.php
+              </a>
+            
+              
+              <a class="source" href="05-ProtectsMoreInvariants.html">
+                05-ProtectsMoreInvariants.php
+              </a>
+            
+              
+              <a class="source" href="index.html">
+                index.markdown
+              </a>
+            
+          </div>
+        </li>
+      </ul>
+    
+    <ul class="sections">
+        
+          <li id="title">
+              <div class="annotation">
+                  <h1>03-RecordsEvents.php</h1>
+              </div>
+          </li>
+        
+        
+        
+        <li id="section-1">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-1">&#182;</a>
+              </div>
+              
+            </div>
+            
+            <div class="content"><div class='highlight'><pre><span class="hljs-preprocessor">&lt;?php</span></pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-2">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-2">&#182;</a>
+              </div>
+              <p>Domain Events describe things that have happened, but where do they come from? Wouldn’t it be nice if we could make
+the objects themselves responsible for recording whatever happened to them? We can, by implementing the
+<code>RecordsEvents</code> interface.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">namespace</span> <span class="hljs-title">Buttercup</span>\<span class="hljs-title">Protects</span>\<span class="hljs-title">Tests</span>;
+
+<span class="hljs-keyword">use</span> <span class="hljs-title">Buttercup</span>\<span class="hljs-title">Protects</span>\<span class="hljs-title">DomainEvent</span>;
+<span class="hljs-keyword">use</span> <span class="hljs-title">Buttercup</span>\<span class="hljs-title">Protects</span>\<span class="hljs-title">DomainEvents</span>;
+<span class="hljs-keyword">use</span> <span class="hljs-title">Buttercup</span>\<span class="hljs-title">Protects</span>\<span class="hljs-title">RecordsEvents</span>;
+<span class="hljs-keyword">use</span> <span class="hljs-title">Buttercup</span>\<span class="hljs-title">Protects</span>\<span class="hljs-title">Tests</span>\<span class="hljs-title">Misc</span>\<span class="hljs-title">ProductId</span>;
+
+<span class="hljs-keyword">require_once</span> <span class="hljs-keyword">__DIR__</span> . <span class="hljs-string">'/../../../../vendor/autoload.php'</span>;</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-3">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-3">&#182;</a>
+              </div>
+              <p>Being good TDD’ers, let’s write our tests first.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre><span class="hljs-variable">$test</span> = <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span></pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-4">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-4">&#182;</a>
+              </div>
+              <p>We create a Basket, add a product, and remove the product again.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    <span class="hljs-variable">$myBasket</span> = Basket::create(BasketId::generate());
+    <span class="hljs-variable">$myBasket</span>-&gt;addProduct(<span class="hljs-keyword">new</span> ProductId(<span class="hljs-string">'TPB123'</span>), <span class="hljs-string">"The Princess Bride"</span>);
+    <span class="hljs-variable">$myBasket</span>-&gt;removeProduct(<span class="hljs-keyword">new</span> ProductId(<span class="hljs-string">'TPB123'</span>));</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-5">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-5">&#182;</a>
+              </div>
+              <p>We’ll want the recorded events to reflect that these three operations have happened.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    <span class="hljs-variable">$events</span> = <span class="hljs-variable">$myBasket</span>-&gt;getRecordedEvents();
+    it(<span class="hljs-string">"should have recorded 3 events"</span>,
+        <span class="hljs-number">3</span> == count(<span class="hljs-variable">$events</span>));
+    it(<span class="hljs-string">"should have a BasketWasCreated event"</span>,
+        <span class="hljs-variable">$events</span>[<span class="hljs-number">0</span>] <span class="hljs-keyword">instanceof</span> BasketWasCreated);
+    it(<span class="hljs-string">"should have a ProductWasAddedToBasket event"</span>,
+        <span class="hljs-variable">$events</span>[<span class="hljs-number">1</span>] <span class="hljs-keyword">instanceof</span> ProductWasAddedToBasket);
+    it(<span class="hljs-string">"should have a ProductWasRemovedFromBasket event"</span>,
+        <span class="hljs-variable">$events</span>[<span class="hljs-number">2</span>] <span class="hljs-keyword">instanceof</span> ProductWasRemovedFromBasket);</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-6">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-6">&#182;</a>
+              </div>
+              <p>We’ll want a way to clear the events, so that the next time we call a method on Basket, we don’t get a list with
+old and new events mixed in the same result.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    <span class="hljs-variable">$myBasket</span>-&gt;clearRecordedEvents();
+    it(<span class="hljs-string">"should have no more events after clearing it"</span>,
+        <span class="hljs-number">0</span> == count(<span class="hljs-variable">$myBasket</span>-&gt;getRecordedEvents()));
+};</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-7">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-7">&#182;</a>
+              </div>
+              <p>We’ll implement the simplest Basket we can to satisfy the tests. By ignoring the PHP syntax, you can read the class
+definition as <strong>natural language</strong>:</p>
+<blockquote>
+<p>A basket records events.</p>
+</blockquote>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">final</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Basket</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">RecordsEvents</span>
+{</span>
+    <span class="hljs-comment">/**
+     *<span class="hljs-phpdoc"> @var</span> BasketId
+     */</span>
+    <span class="hljs-keyword">private</span> <span class="hljs-variable">$basketId</span>;</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-8">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-8">&#182;</a>
+              </div>
+              <p>The <strong>constructor is private</strong>. Currently the only way to instantiate it, is by using <code>create()</code>.
+We’ll add another way later.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    <span class="hljs-keyword">private</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">__construct</span><span class="hljs-params">(BasketId <span class="hljs-variable">$basketId</span>)</span>
+    {</span>
+        <span class="hljs-variable">$this</span>-&gt;basketId = <span class="hljs-variable">$basketId</span>;
+    }</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-9">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-9">&#182;</a>
+              </div>
+              <p>A simple little static factory. Note that it records an event as well.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">create</span><span class="hljs-params">(BasketId <span class="hljs-variable">$basketId</span>)</span>
+    {</span>
+        <span class="hljs-variable">$basket</span> = <span class="hljs-keyword">new</span> Basket(<span class="hljs-variable">$basketId</span>);</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-10">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-10">&#182;</a>
+              </div>
+              <p>Again, this reads very naturally:</p>
+<blockquote>
+<p>Record that a basket was created.</p>
+</blockquote>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>        <span class="hljs-variable">$basket</span>-&gt;recordThat(
+            <span class="hljs-keyword">new</span> BasketWasCreated(<span class="hljs-variable">$basketId</span>)
+        );
+        <span class="hljs-keyword">return</span> <span class="hljs-variable">$basket</span>;
+    }</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-11">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-11">&#182;</a>
+              </div>
+              <p>The <code>addProduct()</code> and <code>removeProduct()</code> methods are the two other operations that we identified in our domain.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">addProduct</span><span class="hljs-params">(ProductId <span class="hljs-variable">$productId</span>, <span class="hljs-variable">$name</span>)</span>
+    {</span>
+       <span class="hljs-variable">$this</span>-&gt;recordThat(
+           <span class="hljs-keyword">new</span> ProductWasAddedToBasket(<span class="hljs-variable">$this</span>-&gt;basketId, <span class="hljs-variable">$productId</span>, <span class="hljs-variable">$name</span>)
+       );
+    }
+
+    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">removeProduct</span><span class="hljs-params">(ProductId <span class="hljs-variable">$productId</span>)</span>
+    {</span>
+       <span class="hljs-variable">$this</span>-&gt;recordThat(
+           <span class="hljs-keyword">new</span> ProductWasRemovedFromBasket(<span class="hljs-variable">$this</span>-&gt;basketId, <span class="hljs-variable">$productId</span>)
+       );
+    }</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-12">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-12">&#182;</a>
+              </div>
+              <p>We’ve called the <code>recordThat()</code> method a couple of times, so now is a good time to implement it. It’s not part of
+the <code>RecordsEvents</code> interface. As with pretty much everything in Buttercup.Protects, you can <strong>choose for yourself
+how you do this and where you put this</strong>. For example, this method and the ones below, could be part of a trait or
+an abstract parent somewhere.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    <span class="hljs-keyword">private</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">recordThat</span><span class="hljs-params">(DomainEvent <span class="hljs-variable">$domainEvent</span>)</span>
+    {</span>
+        <span class="hljs-variable">$this</span>-&gt;latestRecordedEvents[] = <span class="hljs-variable">$domainEvent</span>;
+    }</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-13">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-13">&#182;</a>
+              </div>
+              <p>We only keep a list of newly recorded events since the last <code>clearRecordedEvents()</code>. If we wanted to, we could
+also keep a separate list of <em>all</em> events, but <code>RecordsEvents</code> doesn’t require it. (I define the property here,
+instead of at the top of the class, because it fits the narrative of this documentation better.)</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    <span class="hljs-comment">/**
+     *<span class="hljs-phpdoc"> @var</span> DomainEvent[]
+     */</span>
+    <span class="hljs-keyword">private</span> <span class="hljs-variable">$latestRecordedEvents</span> = [];</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-14">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-14">&#182;</a>
+              </div>
+              <p>Finally, we implement <code>RecordsEvents</code>. We get all the Domain Events that were recorded since the last time it
+was cleared, or since it was restored from persistence.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    <span class="hljs-comment">/**
+     *<span class="hljs-phpdoc"> @return</span> DomainEvents
+     */</span>
+    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">getRecordedEvents</span><span class="hljs-params">()</span>
+    {</span></pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-15">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-15">&#182;</a>
+              </div>
+              <p><code>DomainEvents</code> is an <code>ImmutableArray</code> of <code>DomainEvent</code> objects.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>        <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> DomainEvents(<span class="hljs-variable">$this</span>-&gt;latestRecordedEvents);
+    }</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-16">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-16">&#182;</a>
+              </div>
+              <p>Clears the record of new Domain Events.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">clearRecordedEvents</span><span class="hljs-params">()</span>
+    {</span>
+        <span class="hljs-variable">$this</span>-&gt;latestRecordedEvents = [];
+    }
+}</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-17">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-17">&#182;</a>
+              </div>
+              <p>Run the tests</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre><span class="hljs-variable">$test</span>();</pre></div></div>
+            
+        </li>
+        
+    </ul>
+  </div>
+</body>
+</html>

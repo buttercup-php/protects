@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+  <title>04-ProtectsInvariants.php</title>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <meta name="viewport" content="width=device-width, target-densitydpi=160dpi, initial-scale=1.0; maximum-scale=1.0; user-scalable=0;">
+  <link rel="stylesheet" media="all" href="docco.css" />
+</head>
+<body>
+  <div id="container">
+    <div id="background"></div>
+    
+      <ul id="jump_to">
+        <li>
+          <a class="large" href="javascript:void(0);">Jump To &hellip;</a>
+          <a class="small" href="javascript:void(0);">+</a>
+          <div id="jump_wrapper">
+          <div id="jump_page">
+            
+              
+              <a class="source" href="01-IdentifiesAggregate.html">
+                01-IdentifiesAggregate.php
+              </a>
+            
+              
+              <a class="source" href="02-DomainEvent.html">
+                02-DomainEvent.php
+              </a>
+            
+              
+              <a class="source" href="03-RecordsEvents.html">
+                03-RecordsEvents.php
+              </a>
+            
+              
+              <a class="source" href="04-ProtectsInvariants.html">
+                04-ProtectsInvariants.php
+              </a>
+            
+              
+              <a class="source" href="05-ProtectsMoreInvariants.html">
+                05-ProtectsMoreInvariants.php
+              </a>
+            
+              
+              <a class="source" href="index.html">
+                index.markdown
+              </a>
+            
+          </div>
+        </li>
+      </ul>
+    
+    <ul class="sections">
+        
+          <li id="title">
+              <div class="annotation">
+                  <h1>04-ProtectsInvariants.php</h1>
+              </div>
+          </li>
+        
+        
+        
+        <li id="section-1">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-1">&#182;</a>
+              </div>
+              
+            </div>
+            
+            <div class="content"><div class='highlight'><pre><span class="hljs-preprocessor">&lt;?php</span></pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-2">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-2">&#182;</a>
+              </div>
+              <p><strong>An invariant is a statement about the domain that holds true, no matter what</strong>. By enforcing invariants, we ensure
+<strong>consistency</strong> in the domain model. This allows us to write code in all the layers that surround our model, without
+having to worry about this consistency. Arguably, protecting invariants is one of the most important aspects of
+building models, which is of course why this library is called <em>Buttercup.Protects</em>. But, ironically, the library
+doesn’t offer much help to actually protect invariants. Most likely, this is because invariants are very specific to
+a articular domain anyway.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">namespace</span> <span class="hljs-title">Buttercup</span>\<span class="hljs-title">Protects</span>\<span class="hljs-title">Tests</span>;
+
+<span class="hljs-keyword">use</span> <span class="hljs-title">Buttercup</span>\<span class="hljs-title">Protects</span>\<span class="hljs-title">DomainEvent</span>;
+<span class="hljs-keyword">use</span> <span class="hljs-title">Buttercup</span>\<span class="hljs-title">Protects</span>\<span class="hljs-title">DomainEvents</span>;
+<span class="hljs-keyword">use</span> <span class="hljs-title">Buttercup</span>\<span class="hljs-title">Protects</span>\<span class="hljs-title">RecordsEvents</span>;
+<span class="hljs-keyword">use</span> <span class="hljs-title">Buttercup</span>\<span class="hljs-title">Protects</span>\<span class="hljs-title">Tests</span>\<span class="hljs-title">Misc</span>\<span class="hljs-title">ProductId</span>;
+<span class="hljs-keyword">use</span> <span class="hljs-title">Exception</span>;
+
+<span class="hljs-keyword">require_once</span> <span class="hljs-keyword">__DIR__</span> . <span class="hljs-string">'/../../../../vendor/autoload.php'</span>;</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-3">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-3">&#182;</a>
+              </div>
+              <p>As an example, let’s introduce an invariant that states that <em>“A Basket can have no more than three Products”</em>.
+Let’s write a test that proves that the a <code>BasketLimitReached</code> exception is thrown when we try to violate the invariant.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre><span class="hljs-variable">$test</span> = <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span>
+    <span class="hljs-variable">$basket</span> = BasketV2::create(BasketId::generate());
+    <span class="hljs-variable">$basket</span>-&gt;addProduct(<span class="hljs-keyword">new</span> ProductId(<span class="hljs-string">'TPB1'</span>), <span class="hljs-string">"The Princess Bride"</span>);
+    <span class="hljs-variable">$basket</span>-&gt;addProduct(<span class="hljs-keyword">new</span> ProductId(<span class="hljs-string">'TPB2'</span>), <span class="hljs-string">"The book"</span>);
+    <span class="hljs-variable">$basket</span>-&gt;addProduct(<span class="hljs-keyword">new</span> ProductId(<span class="hljs-string">'TPB3'</span>), <span class="hljs-string">"The DVD"</span>);
+    it(<span class="hljs-string">"should disallow adding a fourth product"</span>,
+        throws(<span class="hljs-string">'Buttercup\Protects\Tests\BasketLimitReached'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">()</span> <span class="hljs-title">use</span><span class="hljs-params">(<span class="hljs-variable">$basket</span>)</span> {</span>
+            <span class="hljs-variable">$basket</span>-&gt;addProduct(<span class="hljs-keyword">new</span> ProductId(<span class="hljs-string">'TPB4'</span>), <span class="hljs-string">"The video game"</span>);
+        })
+    );
+};</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-4">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-4">&#182;</a>
+              </div>
+              <p>(The V2 is just to prevent naming collisions, and can be ignored.)</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">final</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">BasketV2</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">RecordsEvents</span>
+{</span>
+    <span class="hljs-keyword">private</span> <span class="hljs-variable">$productCount</span>;
+
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">create</span><span class="hljs-params">(BasketId <span class="hljs-variable">$basketId</span>)</span>
+    {</span>
+        <span class="hljs-variable">$basket</span> = <span class="hljs-keyword">new</span> BasketV2(<span class="hljs-variable">$basketId</span>);
+        <span class="hljs-variable">$basket</span>-&gt;recordThat(
+            <span class="hljs-keyword">new</span> BasketWasCreated(<span class="hljs-variable">$basketId</span>)
+        );</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-5">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-5">&#182;</a>
+              </div>
+              <p>A new basket doesn’t have any products yet. It’s good to set the initial state explicitly here.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>        <span class="hljs-variable">$basket</span>-&gt;productCount = <span class="hljs-number">0</span>;
+        <span class="hljs-keyword">return</span> <span class="hljs-variable">$basket</span>;
+    }
+
+    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">addProduct</span><span class="hljs-params">(ProductId <span class="hljs-variable">$productId</span>, <span class="hljs-variable">$name</span>)</span>
+    {</span></pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-6">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-6">&#182;</a>
+              </div>
+              <p>A guard protects the invariant, and throws if it is violated</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>        <span class="hljs-variable">$this</span>-&gt;guardProductLimit();</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-7">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-7">&#182;</a>
+              </div>
+              <p>If no exception was thrown, we record the event, and increment the productCount.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>        <span class="hljs-variable">$this</span>-&gt;recordThat(
+            <span class="hljs-keyword">new</span> ProductWasAddedToBasket(<span class="hljs-variable">$this</span>-&gt;basketId, <span class="hljs-variable">$productId</span>, <span class="hljs-variable">$name</span>)
+        );
+        ++<span class="hljs-variable">$this</span>-&gt;productCount;
+    }</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-8">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-8">&#182;</a>
+              </div>
+              <p>We could have inlined this, but having it in a separate method, makes the code more readable and clearly
+states the purpose.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    <span class="hljs-keyword">private</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">guardProductLimit</span><span class="hljs-params">()</span>
+    {</span>
+        <span class="hljs-keyword">if</span> (<span class="hljs-variable">$this</span>-&gt;productCount &gt;= <span class="hljs-number">3</span>) {
+            <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> BasketLimitReached;
+        }
+    }
+
+    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">removeProduct</span><span class="hljs-params">(ProductId <span class="hljs-variable">$productId</span>)</span>
+    {</span>
+        <span class="hljs-variable">$this</span>-&gt;recordThat(
+            <span class="hljs-keyword">new</span> ProductWasRemovedFromBasket(<span class="hljs-variable">$this</span>-&gt;basketId, <span class="hljs-variable">$productId</span>)
+        );</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-9">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-9">&#182;</a>
+              </div>
+              <p>And of course we decrement the count again when removing a Product.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>        --<span class="hljs-variable">$this</span>-&gt;productCount;
+    }</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-10">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-10">&#182;</a>
+              </div>
+              <p>The rest of the code is the same as the previous chapter.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    <span class="hljs-keyword">private</span> <span class="hljs-variable">$basketId</span>;
+    <span class="hljs-keyword">private</span> <span class="hljs-variable">$latestRecordedEvents</span> = [];
+    <span class="hljs-keyword">private</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">__construct</span><span class="hljs-params">(BasketId <span class="hljs-variable">$basketId</span>)</span> {</span> <span class="hljs-variable">$this</span>-&gt;basketId = <span class="hljs-variable">$basketId</span>; }
+    <span class="hljs-keyword">private</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">recordThat</span><span class="hljs-params">(DomainEvent <span class="hljs-variable">$domainEvent</span>)</span> {</span> <span class="hljs-variable">$this</span>-&gt;latestRecordedEvents[] = <span class="hljs-variable">$domainEvent</span>; }
+    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">getRecordedEvents</span><span class="hljs-params">()</span> {</span> <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> DomainEvents(<span class="hljs-variable">$this</span>-&gt;latestRecordedEvents); }
+    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">clearRecordedEvents</span><span class="hljs-params">()</span> {</span> <span class="hljs-variable">$this</span>-&gt;latestRecordedEvents = []; }
+}</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-11">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-11">&#182;</a>
+              </div>
+              <p>I like to have very specific exceptions for each possible invariant.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">final</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">BasketLimitReached</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Exception</span> {</span>}
+
+<span class="hljs-variable">$test</span>();</pre></div></div>
+            
+        </li>
+        
+    </ul>
+  </div>
+</body>
+</html>

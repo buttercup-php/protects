@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+  <title>02-DomainEvent.php</title>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <meta name="viewport" content="width=device-width, target-densitydpi=160dpi, initial-scale=1.0; maximum-scale=1.0; user-scalable=0;">
+  <link rel="stylesheet" media="all" href="docco.css" />
+</head>
+<body>
+  <div id="container">
+    <div id="background"></div>
+    
+      <ul id="jump_to">
+        <li>
+          <a class="large" href="javascript:void(0);">Jump To &hellip;</a>
+          <a class="small" href="javascript:void(0);">+</a>
+          <div id="jump_wrapper">
+          <div id="jump_page">
+            
+              
+              <a class="source" href="01-IdentifiesAggregate.html">
+                01-IdentifiesAggregate.php
+              </a>
+            
+              
+              <a class="source" href="02-DomainEvent.html">
+                02-DomainEvent.php
+              </a>
+            
+              
+              <a class="source" href="03-RecordsEvents.html">
+                03-RecordsEvents.php
+              </a>
+            
+              
+              <a class="source" href="04-ProtectsInvariants.html">
+                04-ProtectsInvariants.php
+              </a>
+            
+              
+              <a class="source" href="05-ProtectsMoreInvariants.html">
+                05-ProtectsMoreInvariants.php
+              </a>
+            
+              
+              <a class="source" href="index.html">
+                index.markdown
+              </a>
+            
+          </div>
+        </li>
+      </ul>
+    
+    <ul class="sections">
+        
+          <li id="title">
+              <div class="annotation">
+                  <h1>02-DomainEvent.php</h1>
+              </div>
+          </li>
+        
+        
+        
+        <li id="section-1">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-1">&#182;</a>
+              </div>
+              
+            </div>
+            
+            <div class="content"><div class='highlight'><pre><span class="hljs-preprocessor">&lt;?php</span></pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-2">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-2">&#182;</a>
+              </div>
+              <p>Before coding your <strong>Domain Model</strong>, discover the <strong>Domain Events</strong> that you need. A Domain Event is something that
+happened in the past, and that is of interest to the business. They are first-class citizens of your model, and in an
+<strong>Event Sourced</strong> system, they are the most important elements. So work closely with your <strong>Domain Expert</strong> to figure
+out what is and is not important to the business.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">namespace</span> <span class="hljs-title">Buttercup</span>\<span class="hljs-title">Protects</span>\<span class="hljs-title">Tests</span>;
+<span class="hljs-keyword">use</span> <span class="hljs-title">Buttercup</span>\<span class="hljs-title">Protects</span>\<span class="hljs-title">DomainEvent</span>;
+<span class="hljs-keyword">use</span> <span class="hljs-title">Buttercup</span>\<span class="hljs-title">Protects</span>\<span class="hljs-title">Tests</span>\<span class="hljs-title">Misc</span>\<span class="hljs-title">ProductId</span>;
+
+<span class="hljs-keyword">require_once</span> <span class="hljs-string">'01-IdentifiesAggregate.php'</span>;</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-3">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-3">&#182;</a>
+              </div>
+              <p>For the sake of the example, we imagine a simple e-commerce system. We’re very interested in what people put in their
+shopping basket, and what they take out. Because every shopping session starts with a new basket, we’re interested in
+that event as well.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">final</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">BasketWasCreated</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">DomainEvent</span>
+{</span>
+    <span class="hljs-keyword">private</span> <span class="hljs-variable">$basketId</span>;
+
+    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">__construct</span><span class="hljs-params">(BasketId <span class="hljs-variable">$basketId</span>)</span>
+    {</span>
+        <span class="hljs-variable">$this</span>-&gt;basketId = <span class="hljs-variable">$basketId</span>;
+    }
+
+    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">getAggregateId</span><span class="hljs-params">()</span>
+    {</span>
+        <span class="hljs-keyword">return</span> <span class="hljs-variable">$this</span>-&gt;basketId;
+    }
+}</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-4">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-4">&#182;</a>
+              </div>
+              <p>You’ve already noticed some interesting concepts:</p>
+<ul>
+<li>The name of the event is in the past tense. <code>BasketWasCreated</code> fits nicely into our <strong>Ubiquitous Language</strong>.
+<code>BasketCreated</code> would’ve worked as well, but I like to make sentences.</li>
+<li>We implement <code>DomainEvent</code>.</li>
+<li>The <code>getAggregateId()</code> method returns <code>IdentifiesAggregate</code>. We’ll get to <strong>Aggregates</strong> soon.</li>
+</ul>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">final</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">ProductWasAddedToBasket</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">DomainEvent</span>
+{</span>
+    <span class="hljs-keyword">private</span> <span class="hljs-variable">$basketId</span>;
+    <span class="hljs-keyword">private</span> <span class="hljs-variable">$productId</span>;
+    <span class="hljs-keyword">private</span> <span class="hljs-variable">$productName</span>;</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-5">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-5">&#182;</a>
+              </div>
+              <p>Notice how all the properties go in the constructor.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">__construct</span><span class="hljs-params">(BasketId <span class="hljs-variable">$basketId</span>, ProductId <span class="hljs-variable">$productId</span>, <span class="hljs-variable">$productName</span>)</span>
+    {</span>
+        <span class="hljs-variable">$this</span>-&gt;basketId = <span class="hljs-variable">$basketId</span>;
+        <span class="hljs-variable">$this</span>-&gt;productName = <span class="hljs-variable">$productName</span>;
+        <span class="hljs-variable">$this</span>-&gt;productId = <span class="hljs-variable">$productId</span>;
+    }
+
+    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">getAggregateId</span><span class="hljs-params">()</span>
+    {</span>
+        <span class="hljs-keyword">return</span> <span class="hljs-variable">$this</span>-&gt;basketId;
+    }</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-6">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-6">&#182;</a>
+              </div>
+              <p>We only deal with <code>ProductId</code>. We haven’t got a Product, strictly speaking we don’t even known whether we’ll ever
+need it, and what it would look like. All we know is that in this context, we’re only interested in the id…</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">getProductId</span><span class="hljs-params">()</span>
+    {</span>
+        <span class="hljs-keyword">return</span> <span class="hljs-variable">$this</span>-&gt;productId;
+    }</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-7">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-7">&#182;</a>
+              </div>
+              <p>… and in the name. We’ll get to that.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">getProductName</span><span class="hljs-params">()</span>
+    {</span>
+        <span class="hljs-keyword">return</span> <span class="hljs-variable">$this</span>-&gt;productName;
+    }
+}</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-8">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-8">&#182;</a>
+              </div>
+              <p>Notice that Domain Events are <strong>immutable</strong>. Once they have been initialized, there’s no way to change them, there
+are No setters. That makes perfect sense: History can’t be altered!</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">final</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">ProductWasRemovedFromBasket</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">DomainEvent</span>
+{</span>
+    <span class="hljs-keyword">private</span> <span class="hljs-variable">$basketId</span>;
+    <span class="hljs-keyword">private</span> <span class="hljs-variable">$productId</span>;
+
+    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">__construct</span><span class="hljs-params">(BasketId <span class="hljs-variable">$basketId</span>, ProductId <span class="hljs-variable">$productId</span>)</span>
+    {</span>
+        <span class="hljs-variable">$this</span>-&gt;basketId = <span class="hljs-variable">$basketId</span>;
+        <span class="hljs-variable">$this</span>-&gt;productId = <span class="hljs-variable">$productId</span>;
+    }
+
+    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">getAggregateId</span><span class="hljs-params">()</span>
+    {</span>
+        <span class="hljs-keyword">return</span> <span class="hljs-variable">$this</span>-&gt;basketId;
+    }
+
+    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">getProductId</span><span class="hljs-params">()</span>
+    {</span>
+        <span class="hljs-keyword">return</span> <span class="hljs-variable">$this</span>-&gt;productId;
+    }
+}</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-9">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-9">&#182;</a>
+              </div>
+              <p>Let’s test one of our Domain Events. Did we mention this documentation doubles as test suite?</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre><span class="hljs-variable">$event</span> = <span class="hljs-keyword">new</span> ProductWasAddedToBasket(<span class="hljs-keyword">new</span> BasketId(<span class="hljs-string">'BAS1'</span>), <span class="hljs-keyword">new</span> ProductId(<span class="hljs-string">'PRO1'</span>), <span class="hljs-string">"The Princess Bride"</span>);
+it(<span class="hljs-string">'should equal another instance with the same value'</span>,
+    <span class="hljs-variable">$event</span>-&gt;getAggregateId()-&gt;equals(<span class="hljs-keyword">new</span> BasketId(<span class="hljs-string">'BAS1'</span>)));
+it(<span class="hljs-string">"should expose a ProductId"</span>,
+    <span class="hljs-variable">$event</span>-&gt;getProductId()-&gt;equals(<span class="hljs-keyword">new</span> ProductId(<span class="hljs-string">'PRO1'</span>)));
+it(<span class="hljs-string">"should expose a productName"</span>,
+    <span class="hljs-variable">$event</span>-&gt;getProductName() == <span class="hljs-string">"The Princess Bride"</span>);</pre></div></div>
+            
+        </li>
+        
+    </ul>
+  </div>
+</body>
+</html>
