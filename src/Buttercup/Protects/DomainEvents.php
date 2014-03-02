@@ -2,10 +2,19 @@
 
 namespace Buttercup\Protects;
 
-interface DomainEvents
+class DomainEvents extends ImmutableArray
 {
     /**
-     * @return DomainEvent[]
+     * Throw when the type of item is not accepted.
+     *
+     * @param $item
+     * @throws ArrayIsImmutable
+     * @return void
      */
-    public function getAll();
+    protected function guardType($item)
+    {
+        if(!($item instanceof DomainEvent)) {
+            throw new ArrayIsImmutable;
+        }
+    }
 }
