@@ -15,6 +15,9 @@ final class BasketId implements IdentifiesAggregate
     private $basketId;
     // You are free to extend from an abstract class, and to implement the constructor as you wish. For example, you
     // could add some validation in there.
+    /**
+     * @param string $basketId
+     */
     public function __construct($basketId)
     {
         $this->basketId = $basketId;
