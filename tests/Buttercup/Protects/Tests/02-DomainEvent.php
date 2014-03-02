@@ -75,7 +75,7 @@ final class ProductWasRemovedFromBasket implements DomainEvent
     public function __construct(BasketId $basketId, ProductId $productId)
     {
         $this->basketId = $basketId;
-        $this->productName = $productId;
+        $this->productId = $productId;
     }
 
     public function getAggregateId()
