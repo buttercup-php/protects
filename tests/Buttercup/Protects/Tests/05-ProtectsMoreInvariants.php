@@ -14,18 +14,18 @@ use Buttercup\Protects\Tests\Misc\ProductId;
 
 require_once __DIR__ . '/../../../../vendor/autoload.php';
 
-$test = function() {
     // If we have a Basket with one Product, and we try to remove this Product twice, we could throw an exception. But
     // in fact, that would not be necessary in this case. We could simply ignore the second attempt. After all, the
     // Basket would still be in a consistent state.
+$test = function() {
     $basket = BasketV3::create(BasketId::generate());
     $productId = new ProductId('TPB1');
     $basket->addProduct($productId, "The Princess Bride");
     $basket->removeProduct($productId);
     $basket->removeProduct($productId);
+    // `create()`, `addProduct()` and the first `removeProduct()` have resulted in one event each, but the last call
+    // to `removeProduct()` has not.
     it("should not record an event when removing a Product that is no longer in the Basket",
-        // `create()`, `addProduct()` and the first `removeProduct()` have resulted in one event each, but the last call
-        // to `removeProduct()` has not.
         count($basket->getRecordedEvents()) == 3
     );
 };
