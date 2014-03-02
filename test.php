@@ -9,5 +9,6 @@ require_once __DIR__ . '/tests/Buttercup/Protects/Tests/01-IdentifiesAggregate.p
 require_once __DIR__ . '/tests/Buttercup/Protects/Tests/02-DomainEvent.php';
 require_once __DIR__ . '/tests/Buttercup/Protects/Tests/03-RecordsEvents.php';
 require_once __DIR__ . '/tests/Buttercup/Protects/Tests/04-ProtectsInvariants.php';
+require_once __DIR__ . '/tests/Buttercup/Protects/Tests/05-ProtectsMoreInvariants.php';
 
 done();
