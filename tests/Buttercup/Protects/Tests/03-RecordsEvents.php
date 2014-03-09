@@ -6,6 +6,7 @@ namespace Buttercup\Protects\Tests;
 
 use Buttercup\Protects\DomainEvent;
 use Buttercup\Protects\DomainEvents;
+use Buttercup\Protects\DomainEventsIMPL;
 use Buttercup\Protects\RecordsEvents;
 use Buttercup\Protects\Tests\Misc\ProductId;
 
@@ -105,7 +106,7 @@ final class Basket implements RecordsEvents
     public function getRecordedEvents()
     {
         // `DomainEvents` is an `ImmutableArray` of `DomainEvent` objects.
-        return new DomainEvents($this->latestRecordedEvents);
+        return new DomainEventsIMPL($this->latestRecordedEvents);
     }
 
     // Clears the record of new Domain Events.
