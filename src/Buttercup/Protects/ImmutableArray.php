@@ -19,8 +19,7 @@ abstract class ImmutableArray extends SplFixedArray implements Countable, Iterat
     }
 
     /**
-     * Throw when the type of item is not accepted.
-     *
+     * Throw when the item is not an instance of the accepted type.
      * @throws \InvalidArgumentException
      * @param $item
      * @return void
