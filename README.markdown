@@ -7,6 +7,8 @@ record Domain Events.
 
 ## Documentation
 
+[http://buttercup-php.github.io/protects](http://buttercup-php.github.io/protects)
+
 Generate the docs with Docco:
 
 ```
