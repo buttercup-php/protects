@@ -8,7 +8,6 @@
 namespace Buttercup\Protects\Tests;
 
 use Buttercup\Protects\DomainEvent;
-use Buttercup\Protects\DomainEvents;
 use Buttercup\Protects\DomainEventsIMPL;
 use Buttercup\Protects\RecordsEvents;
 use Buttercup\Protects\Tests\Misc\ProductId;

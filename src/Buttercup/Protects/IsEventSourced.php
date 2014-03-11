@@ -16,6 +16,7 @@ interface IsEventSourced
     /**
      * @return IdentifiesAggregate
      */
-    public function getAggregateId();
+    // @todo do we need this here?
+    //public function getAggregateId();
 }
  

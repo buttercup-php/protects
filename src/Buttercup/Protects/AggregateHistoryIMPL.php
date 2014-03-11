@@ -2,12 +2,19 @@
 
 namespace Buttercup\Protects;
 
+use Buttercup\Protects\IdentifiesAggregate;
+
 
 /**
  * @todo move
  */
 final class AggregateHistoryIMPL extends DomainEventsIMPL implements AggregateHistory
 {
+    /**
+     * @var IdentifiesAggregate
+     */
+    private $aggregateId;
+
     public function __construct(IdentifiesAggregate $aggregateId, array $events)
     {
         /** @var $event DomainEvent */
@@ -17,14 +24,23 @@ final class AggregateHistoryIMPL extends DomainEventsIMPL implements AggregateHi
             }
         }
         parent::__construct($events);
+        $this->aggregateId = $aggregateId;
     }
-
 
     /**
      * @return IdentifiesAggregate
      */
     public function getAggregateId()
     {
+        return $this->aggregateId;
+    }
 
+    /**
+     * @param DomainEvent $domainEvent
+     * @return AggregateHistory
+     */
+    public function append(DomainEvent $domainEvent)
+    {
+        throw new \Exception("@todo  Implement append() method.");
     }
 }

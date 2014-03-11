@@ -10,5 +10,6 @@ require_once __DIR__ . '/tests/Buttercup/Protects/Tests/02-DomainEvent.php';
 require_once __DIR__ . '/tests/Buttercup/Protects/Tests/03-RecordsEvents.php';
 require_once __DIR__ . '/tests/Buttercup/Protects/Tests/04-ProtectsInvariants.php';
 require_once __DIR__ . '/tests/Buttercup/Protects/Tests/05-ProtectsMoreInvariants.php';
+require_once __DIR__ . '/tests/Buttercup/Protects/Tests/06-IsEventSourced.php';
 
 done();

@@ -20,7 +20,7 @@ final class BasketId implements IdentifiesAggregate
      */
     public function __construct($basketId)
     {
-        $this->basketId = $basketId;
+        $this->basketId = (string) $basketId;
     }
 
     public static function fromString($string)
