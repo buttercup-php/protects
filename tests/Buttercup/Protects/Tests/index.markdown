@@ -11,3 +11,6 @@ record Domain Events.
 - [06 IsEventSourced](06-IsEventSourced.html)
 
 (Use the 'Jump to' menu to navigate.)
+
+- [Fork me on GitHub](https://github.com/buttercup-php/protects)
+
