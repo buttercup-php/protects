@@ -44,6 +44,11 @@
               </a>
             
               
+              <a class="source" href="06-IsEventSourced.html">
+                06-IsEventSourced.php
+              </a>
+            
+              
               <a class="source" href="index.html">
                 index.markdown
               </a>
@@ -131,7 +136,7 @@ could add some validation in there.</p>
      */</span>
     <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">__construct</span><span class="hljs-params">(<span class="hljs-variable">$basketId</span>)</span>
     {</span>
-        <span class="hljs-variable">$this</span>-&gt;basketId = <span class="hljs-variable">$basketId</span>;
+        <span class="hljs-variable">$this</span>-&gt;basketId = (string) <span class="hljs-variable">$basketId</span>;
     }
 
     <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">fromString</span><span class="hljs-params">(<span class="hljs-variable">$string</span>)</span>
