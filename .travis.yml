@@ -6,6 +6,10 @@ php:
   - 5.6
   - hhvm
 
+# http://docs.travis-ci.com/user/build-configuration/#Rows-That-are-Allowed-To-Fail
+matrix:
+  allow_failures:
+    - php: hhvm
 
 before_script:
     - composer install
