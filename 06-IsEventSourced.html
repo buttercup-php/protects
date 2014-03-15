@@ -98,9 +98,8 @@ of elements that make up the Aggregate.</p>
             <div class="content"><div class='highlight'><pre><span class="hljs-keyword">namespace</span> <span class="hljs-title">Buttercup</span>\<span class="hljs-title">Protects</span>\<span class="hljs-title">Tests</span>;
 
 <span class="hljs-keyword">use</span> <span class="hljs-title">Buttercup</span>\<span class="hljs-title">Protects</span>\<span class="hljs-title">AggregateHistory</span>;
-<span class="hljs-keyword">use</span> <span class="hljs-title">Buttercup</span>\<span class="hljs-title">Protects</span>\<span class="hljs-title">AggregateHistoryIMPL</span>;
 <span class="hljs-keyword">use</span> <span class="hljs-title">Buttercup</span>\<span class="hljs-title">Protects</span>\<span class="hljs-title">DomainEvent</span>;
-<span class="hljs-keyword">use</span> <span class="hljs-title">Buttercup</span>\<span class="hljs-title">Protects</span>\<span class="hljs-title">DomainEventsIMPL</span>;
+<span class="hljs-keyword">use</span> <span class="hljs-title">Buttercup</span>\<span class="hljs-title">Protects</span>\<span class="hljs-title">DomainEvents</span>;
 <span class="hljs-keyword">use</span> <span class="hljs-title">Buttercup</span>\<span class="hljs-title">Protects</span>\<span class="hljs-title">IsEventSourced</span>;
 <span class="hljs-keyword">use</span> <span class="hljs-title">Buttercup</span>\<span class="hljs-title">Protects</span>\<span class="hljs-title">RecordsEvents</span>;
 <span class="hljs-keyword">use</span> <span class="hljs-title">Buttercup</span>\<span class="hljs-title">Protects</span>\<span class="hljs-title">Tests</span>\<span class="hljs-title">Misc</span>\<span class="hljs-title">ProductId</span>;
@@ -132,7 +131,7 @@ of elements that make up the Aggregate.</p>
             </div>
             
             <div class="content"><div class='highlight'><pre>    <span class="hljs-variable">$reconstitutedBasket</span> = BasketV4::reconstituteFrom(
-        <span class="hljs-keyword">new</span> AggregateHistoryIMPL(<span class="hljs-variable">$basketId</span>, (<span class="hljs-keyword">array</span>) <span class="hljs-variable">$events</span>)
+        <span class="hljs-keyword">new</span> AggregateHistory(<span class="hljs-variable">$basketId</span>, (<span class="hljs-keyword">array</span>) <span class="hljs-variable">$events</span>)
     );
 
     it(<span class="hljs-string">"should be the same after reconstitution"</span>,
@@ -313,7 +312,7 @@ to methods based on the class names of the events. Let’s do the latter.</p>
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-13">&#182;</a>
               </div>
-              <p>Remeber that all of this code used to be in <code>addProduct()</code></p>
+              <p>Remember that all of this code used to be in <code>addProduct()</code></p>
 
             </div>
             
@@ -439,7 +438,7 @@ to methods based on the class names of the events. Let’s do the latter.</p>
     <span class="hljs-keyword">private</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">productIsInBasket</span><span class="hljs-params">(ProductId <span class="hljs-variable">$productId</span>)</span> {</span> <span class="hljs-keyword">return</span> array_key_exists((string) <span class="hljs-variable">$productId</span>, <span class="hljs-variable">$this</span>-&gt;products) &amp;&amp; <span class="hljs-variable">$this</span>-&gt;products[(string)<span class="hljs-variable">$productId</span>] &gt; <span class="hljs-number">0</span>; }
     <span class="hljs-keyword">private</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">guardProductLimit</span><span class="hljs-params">()</span> {</span> <span class="hljs-keyword">if</span> (<span class="hljs-variable">$this</span>-&gt;productCount &gt;= <span class="hljs-number">3</span>) { <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> BasketLimitReached; } }
     <span class="hljs-keyword">private</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">__construct</span><span class="hljs-params">(BasketId <span class="hljs-variable">$basketId</span>)</span> {</span> <span class="hljs-variable">$this</span>-&gt;basketId = <span class="hljs-variable">$basketId</span>; }
-    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">getRecordedEvents</span><span class="hljs-params">()</span> {</span> <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> DomainEventsIMPL(<span class="hljs-variable">$this</span>-&gt;latestRecordedEvents); }
+    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">getRecordedEvents</span><span class="hljs-params">()</span> {</span> <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> DomainEvents(<span class="hljs-variable">$this</span>-&gt;latestRecordedEvents); }
     <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">clearRecordedEvents</span><span class="hljs-params">()</span> {</span> <span class="hljs-variable">$this</span>-&gt;latestRecordedEvents = []; }
 
 }
