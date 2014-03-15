@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+  <title>08-AggregateRepository.php</title>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <meta name="viewport" content="width=device-width, target-densitydpi=160dpi, initial-scale=1.0; maximum-scale=1.0; user-scalable=0;">
+  <link rel="stylesheet" media="all" href="docco.css" />
+</head>
+<body>
+  <div id="container">
+    <div id="background"></div>
+    
+      <ul id="jump_to">
+        <li>
+          <a class="large" href="javascript:void(0);">Jump To &hellip;</a>
+          <a class="small" href="javascript:void(0);">+</a>
+          <div id="jump_wrapper">
+          <div id="jump_page">
+            
+              
+              <a class="source" href="01-IdentifiesAggregate.html">
+                01-IdentifiesAggregate.php
+              </a>
+            
+              
+              <a class="source" href="02-DomainEvent.html">
+                02-DomainEvent.php
+              </a>
+            
+              
+              <a class="source" href="03-RecordsEvents.html">
+                03-RecordsEvents.php
+              </a>
+            
+              
+              <a class="source" href="04-ProtectsInvariants.html">
+                04-ProtectsInvariants.php
+              </a>
+            
+              
+              <a class="source" href="05-ProtectsMoreInvariants.html">
+                05-ProtectsMoreInvariants.php
+              </a>
+            
+              
+              <a class="source" href="06-IsEventSourced.html">
+                06-IsEventSourced.php
+              </a>
+            
+              
+              <a class="source" href="07-EventStore.html">
+                07-EventStore.php
+              </a>
+            
+              
+              <a class="source" href="08-AggregateRepository.html">
+                08-AggregateRepository.php
+              </a>
+            
+              
+              <a class="source" href="index.html">
+                index.markdown
+              </a>
+            
+          </div>
+        </li>
+      </ul>
+    
+    <ul class="sections">
+        
+          <li id="title">
+              <div class="annotation">
+                  <h1>08-AggregateRepository.php</h1>
+              </div>
+          </li>
+        
+        
+        
+        <li id="section-1">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-1">&#182;</a>
+              </div>
+              
+            </div>
+            
+            <div class="content"><div class='highlight'><pre><span class="hljs-preprocessor">&lt;?php</span></pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-2">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-2">&#182;</a>
+              </div>
+              <p>As we will have multiple <code>Basket</code> instances in our system, we’ll want to collect them in an AggregateRepository.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">namespace</span> <span class="hljs-title">Buttercup</span>\<span class="hljs-title">Protects</span>\<span class="hljs-title">Tests</span>;
+
+<span class="hljs-keyword">use</span> <span class="hljs-title">Buttercup</span>\<span class="hljs-title">Protects</span>\<span class="hljs-title">AggregateRoot</span>;
+<span class="hljs-keyword">use</span> <span class="hljs-title">Buttercup</span>\<span class="hljs-title">Protects</span>\<span class="hljs-title">AggregateRepository</span>;
+<span class="hljs-keyword">use</span> <span class="hljs-title">Buttercup</span>\<span class="hljs-title">Protects</span>\<span class="hljs-title">IdentifiesAggregate</span>;
+<span class="hljs-keyword">use</span> <span class="hljs-title">Buttercup</span>\<span class="hljs-title">Protects</span>\<span class="hljs-title">RecordsEvents</span>;
+<span class="hljs-keyword">use</span> <span class="hljs-title">Buttercup</span>\<span class="hljs-title">Protects</span>\<span class="hljs-title">Tests</span>\<span class="hljs-title">Misc</span>\<span class="hljs-title">ProductId</span>;
+
+<span class="hljs-keyword">final</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">BasketRepository</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">AggregateRepository</span>
+{</span>
+    <span class="hljs-keyword">private</span> <span class="hljs-variable">$eventStore</span>;
+
+    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">__construct</span><span class="hljs-params">(EventStore <span class="hljs-variable">$eventStore</span>)</span>
+    {</span>
+        <span class="hljs-variable">$this</span>-&gt;eventStore = <span class="hljs-variable">$eventStore</span>;
+    }
+
+    <span class="hljs-comment">/**
+     *<span class="hljs-phpdoc"> @param</span> RecordsEvents $aggregate
+     *<span class="hljs-phpdoc"> @return</span> void
+     */</span>
+    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">add</span><span class="hljs-params">(RecordsEvents <span class="hljs-variable">$aggregate</span>)</span>
+    {</span></pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-3">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-3">&#182;</a>
+              </div>
+              <p>To store the updates made to an Aggregate, we only need to commit the latest recorded events to the <code>EventStore</code>.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>        <span class="hljs-variable">$events</span> = <span class="hljs-variable">$aggregate</span>-&gt;getRecordedEvents();
+        <span class="hljs-variable">$this</span>-&gt;eventStore-&gt;commit(<span class="hljs-variable">$events</span>);
+        <span class="hljs-variable">$aggregate</span>-&gt;clearRecordedEvents();
+    }
+
+    <span class="hljs-comment">/**
+     *<span class="hljs-phpdoc"> @param</span> IdentifiesAggregate $aggregateId
+     *<span class="hljs-phpdoc"> @return</span> Basket
+     */</span>
+    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">get</span><span class="hljs-params">(IdentifiesAggregate <span class="hljs-variable">$aggregateId</span>)</span>
+    {</span></pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-4">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-4">&#182;</a>
+              </div>
+              <p>Fetching a single <code>Basket</code> is extremely easy: all we need is to reconstitute it from its history! Compare
+that to the complexity of traditional ORMs.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>        <span class="hljs-variable">$aggregateHistory</span> = <span class="hljs-variable">$this</span>-&gt;eventStore-&gt;getAggregateHistoryFor(<span class="hljs-variable">$aggregateId</span>);
+        <span class="hljs-keyword">return</span> Basketv4::reconstituteFrom(<span class="hljs-variable">$aggregateHistory</span>);
+    }
+}
+
+
+<span class="hljs-variable">$basketId</span> = BasketId::generate();
+<span class="hljs-variable">$basket</span> = BasketV4::create(<span class="hljs-variable">$basketId</span>);
+<span class="hljs-variable">$basket</span>-&gt;addProduct(ProductId::fromString(<span class="hljs-string">'TPB01'</span>), <span class="hljs-string">"The Princess Bride"</span>);
+
+<span class="hljs-variable">$baskets</span> = <span class="hljs-keyword">new</span> BasketRepository(<span class="hljs-keyword">new</span> InMemoryEventStore());
+<span class="hljs-variable">$baskets</span>-&gt;add(<span class="hljs-variable">$basket</span>);
+<span class="hljs-variable">$reconstitutedBasket</span> = <span class="hljs-variable">$baskets</span>-&gt;get(<span class="hljs-variable">$basketId</span>);
+
+it(<span class="hljs-string">'should reconstitute a Basket to its state after persisting it'</span>,
+    <span class="hljs-variable">$basket</span> == <span class="hljs-variable">$reconstitutedBasket</span>
+);</pre></div></div>
+            
+        </li>
+        
+    </ul>
+  </div>
+</body>
+</html>
