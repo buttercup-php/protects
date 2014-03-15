@@ -10,7 +10,7 @@ record Domain Events.
 - [05 Protecting More Invariants](05-ProtectsMoreInvariants.html)
 - [06 IsEventSourced](06-IsEventSourced.html)
 - [07 EventStore](07-EventStore.html)
-- [08 AggregateRepository](06-AggregateRepository.html)
+- [08 AggregateRepository](08-AggregateRepository.html)
 
 (Use the 'Jump to' menu to navigate.)
 
