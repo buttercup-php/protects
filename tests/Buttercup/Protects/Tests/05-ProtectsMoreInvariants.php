@@ -12,11 +12,9 @@ use Buttercup\Protects\DomainEvents;
 use Buttercup\Protects\RecordsEvents;
 use Buttercup\Protects\Tests\Misc\ProductId;
 
-require_once __DIR__ . '/../../../../vendor/autoload.php';
-
-    // If we have a Basket with one Product, and we try to remove this Product twice, we could throw an exception. But
-    // in fact, that would not be necessary in this case. We could simply ignore the second attempt. After all, the
-    // Basket would still be in a consistent state.
+// If we have a Basket with one Product, and we try to remove this Product twice, we could throw an exception. But
+// in fact, that would not be necessary in this case. We could simply ignore the second attempt. After all, the
+// Basket would still be in a consistent state.
 $test = function() {
     $basket = BasketV3::create(BasketId::generate());
     $productId = new ProductId('TPB1');

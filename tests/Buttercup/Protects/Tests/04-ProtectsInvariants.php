@@ -13,8 +13,6 @@ use Buttercup\Protects\RecordsEvents;
 use Buttercup\Protects\Tests\Misc\ProductId;
 use Exception;
 
-require_once __DIR__ . '/../../../../vendor/autoload.php';
-
 // As an example, let's introduce an invariant that states that *"A Basket can have no more than three Products"*.
 // Let's write a test that proves that the a `BasketLimitReached` exception is thrown when we try to violate the invariant.
 $test = function() {

@@ -7,8 +7,6 @@
 namespace Buttercup\Protects\Tests;
 use Buttercup\Protects\IdentifiesAggregate;
 
-require_once __DIR__ . '/../../../../vendor/autoload.php';
-
 // Simply use the `IdentifiesAggregate` interface on a class such as BasketId, and implement its methods.
 final class BasketId implements IdentifiesAggregate
 {

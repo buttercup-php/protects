@@ -14,8 +14,6 @@ use Buttercup\Protects\RecordsEvents;
 use Buttercup\Protects\Tests\Misc\ProductId;
 use Verraes\ClassFunctions\ClassFunctions;
 
-require_once __DIR__ . '/../../../../vendor/autoload.php';
-
 $test = function() {
     $basketId = BasketId::generate();
     $basket = BasketV4::create($basketId);

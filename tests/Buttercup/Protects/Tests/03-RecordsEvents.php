@@ -9,8 +9,6 @@ use Buttercup\Protects\DomainEvents;
 use Buttercup\Protects\RecordsEvents;
 use Buttercup\Protects\Tests\Misc\ProductId;
 
-require_once __DIR__ . '/../../../../vendor/autoload.php';
-
 // Being good TDD'ers, let's write our tests first.
 $test = function() {
     // We create a Basket, add a product, and remove the product again.
