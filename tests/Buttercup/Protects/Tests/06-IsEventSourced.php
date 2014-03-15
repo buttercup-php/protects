@@ -25,7 +25,7 @@ $test = function() {
     $basket->removeProduct($productId);
     $events = $basket->getRecordedEvents();
     $basket->clearRecordedEvents();
-    // Here we would store and retrieve the events,
+    // Here we would store the events, and later retrieve them from that store.
     $reconstitutedBasket = BasketV4::reconstituteFrom(
         new AggregateHistory($basketId, (array) $events)
     );
