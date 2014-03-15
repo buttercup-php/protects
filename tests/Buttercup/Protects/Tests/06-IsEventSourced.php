@@ -7,9 +7,8 @@
 namespace Buttercup\Protects\Tests;
 
 use Buttercup\Protects\AggregateHistory;
-use Buttercup\Protects\AggregateHistoryIMPL;
 use Buttercup\Protects\DomainEvent;
-use Buttercup\Protects\DomainEventsIMPL;
+use Buttercup\Protects\DomainEvents;
 use Buttercup\Protects\IsEventSourced;
 use Buttercup\Protects\RecordsEvents;
 use Buttercup\Protects\Tests\Misc\ProductId;
@@ -28,7 +27,7 @@ $test = function() {
     $basket->clearRecordedEvents();
     // Here we would store and retrieve the events,
     $reconstitutedBasket = BasketV4::reconstituteFrom(
-        new AggregateHistoryIMPL($basketId, (array) $events)
+        new AggregateHistory($basketId, (array) $events)
     );
 
     it("should be the same after reconstitution",
@@ -147,7 +146,7 @@ final class BasketV4 implements RecordsEvents, IsEventSourced
     private function productIsInBasket(ProductId $productId) { return array_key_exists((string) $productId, $this->products) && $this->products[(string)$productId] > 0; }
     private function guardProductLimit() { if ($this->productCount >= 3) { throw new BasketLimitReached; } }
     private function __construct(BasketId $basketId) { $this->basketId = $basketId; }
-    public function getRecordedEvents() { return new DomainEventsIMPL($this->latestRecordedEvents); }
+    public function getRecordedEvents() { return new DomainEvents($this->latestRecordedEvents); }
     public function clearRecordedEvents() { $this->latestRecordedEvents = []; }
 
 }

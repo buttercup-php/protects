@@ -8,7 +8,7 @@
 namespace Buttercup\Protects\Tests;
 
 use Buttercup\Protects\DomainEvent;
-use Buttercup\Protects\DomainEventsIMPL;
+use Buttercup\Protects\DomainEvents;
 use Buttercup\Protects\RecordsEvents;
 use Buttercup\Protects\Tests\Misc\ProductId;
 
@@ -97,7 +97,7 @@ final class BasketV3 implements RecordsEvents
     public static function create(BasketId $basketId) { $basket = new BasketV3($basketId); $basket->recordThat( new BasketWasCreated($basketId) ); $basket->productCount = 0; $basket->products = []; return $basket; }
     private function __construct(BasketId $basketId) { $this->basketId = $basketId; }
     private function recordThat(DomainEvent $domainEvent) { $this->latestRecordedEvents[] = $domainEvent; }
-    public function getRecordedEvents() { return new DomainEventsIMPL($this->latestRecordedEvents); }
+    public function getRecordedEvents() { return new DomainEvents($this->latestRecordedEvents); }
     public function clearRecordedEvents() { $this->latestRecordedEvents = []; }
 }
 

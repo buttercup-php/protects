@@ -1,7 +1,7 @@
 # Buttercup.Protects
 
-**Buttercup.Protects** is PHP library of interfaces for building Aggregates that protect business invariants, and that
-record Domain Events.
+**Buttercup.Protects** is PHP library of mostly interfaces for building Aggregates that protect business invariants, and
+that record Domain Events.
 
 - [01 IdentifiesAggregate](01-IdentifiesAggregate.html)
 - [02 DomainEvent](02-DomainEvent.html)
@@ -12,5 +12,5 @@ record Domain Events.
 
 (Use the 'Jump to' menu to navigate.)
 
-- [Fork me on GitHub](https://github.com/buttercup-php/protects)
+- Improvements? [Fork me on GitHub](https://github.com/buttercup-php/protects)
 
