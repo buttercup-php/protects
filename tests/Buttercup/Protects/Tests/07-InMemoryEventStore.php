@@ -9,13 +9,30 @@ use Buttercup\Protects\DomainEvent;
 use Buttercup\Protects\DomainEvents;
 use Buttercup\Protects\IdentifiesAggregate;
 
-final class InMemoryEventStore
+interface EventStore
+{
+    // A commit is always transactional. Either the whole set of `DomainEvents` is persisted, or none of them are.
+    // Usually, a commit will consist of events from a single operation on a single `Aggregate`.
+    /**
+     * @param DomainEvents $events
+     * @return void
+     */
+    public function commit(DomainEvents $events);
+
+    // The only read operation we support for now, is fetching all the events that make up the complete history of a
+    // single Aggregate instance, identified by an id.
+    /**
+     * @param IdentifiesAggregate $id
+     * @return AggregateHistory
+     */
+    public function getAggregateHistoryFor(IdentifiesAggregate $id);
+}
+
+final class InMemoryEventStore implements EventStore
 {
     // We will simply store all the `DomainEvents` chronologically in an array, instead of persisting them in a database.
     private $events = [];
 
-    // A commit is always transactional. Either the whole set of `DomainEvents` is persisted, or none of them are.
-    // Usually, a commit will consist of events from a single operation on a single `Aggregate`.
     public function commit(DomainEvents $events)
     {
         foreach ($events as $event) {
@@ -23,13 +40,9 @@ final class InMemoryEventStore
         }
     }
 
-    // The only read operation we support for now, is fetching all the events that make up the complete history of a
-    // single Aggregate instance, identified by an id.
-    /**
-     * @return AggregateHistory
-     */
     public function getAggregateHistoryFor(IdentifiesAggregate $id)
     {
+        // In a real implementation, we would of course query the database to only return the relevant events.
         return new AggregateHistory(
             $id,
             array_filter(
