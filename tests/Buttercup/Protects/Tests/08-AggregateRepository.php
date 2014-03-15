@@ -5,6 +5,8 @@ namespace Buttercup\Protects\Tests;
 use Buttercup\Protects\AggregateRoot;
 use Buttercup\Protects\AggregateRepository;
 use Buttercup\Protects\IdentifiesAggregate;
+use Buttercup\Protects\RecordsEvents;
+use Buttercup\Protects\Tests\Misc\ProductId;
 
 final class BasketRepository implements AggregateRepository
 {
@@ -16,10 +18,10 @@ final class BasketRepository implements AggregateRepository
     }
 
     /**
-     * @param AggregateRoot $aggregate
+     * @param RecordsEvents $aggregate
      * @return void
      */
-    public function add(AggregateRoot $aggregate)
+    public function add(RecordsEvents $aggregate)
     {
         // To store the updates made to an Aggregate, we only need to commit the latest recorded events to the `EventStore`.
         $events = $aggregate->getRecordedEvents();
@@ -40,3 +42,15 @@ final class BasketRepository implements AggregateRepository
     }
 }
 
+
+$basketId = BasketId::generate();
+$basket = BasketV4::create($basketId);
+$basket->addProduct(ProductId::fromString('TPB01'), "The Princess Bride");
+
+$baskets = new BasketRepository(new InMemoryEventStore());
+$baskets->add($basket);
+$reconstitutedBasket = $baskets->get($basketId);
+
+it('should reconstitute a Basket to its state after persisting it',
+    $basket == $reconstitutedBasket
+);

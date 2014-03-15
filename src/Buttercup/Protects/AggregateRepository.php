@@ -9,13 +9,13 @@ interface AggregateRepository
 {
     /**
      * @param IdentifiesAggregate $aggregateId
-     * @return AggregateRoot
+     * @return IsEventSourced
      */
     public function get(IdentifiesAggregate $aggregateId);
 
     /**
-     * @param AggregateRoot $aggregate
+     * @param RecordsEvents $aggregate
      * @return void
      */
-    public function add(AggregateRoot $aggregate);
+    public function add(RecordsEvents $aggregate);
 }
