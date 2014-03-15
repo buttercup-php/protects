@@ -6,6 +6,9 @@ use Buttercup\Protects\IdentifiesAggregate;
 
 final class ProductId implements IdentifiesAggregate
 {
+    /**
+     * @var string
+     */
     private $productId;
 
     public function __construct($productId)

@@ -87,7 +87,7 @@ final class BasketV4 implements RecordsEvents, IsEventSourced
 
     private function applyProductWasAddedToBasket(ProductWasAddedToBasket $event)
     {
-        // Remeber that all of this code used to be in `addProduct()`
+        // Remember that all of this code used to be in `addProduct()`
         $productId = $event->getProductId();
         if(!$this->productIsInBasket($productId)) {
             $this->products[(string) $productId] = 0;
