@@ -16,7 +16,7 @@ use Exception;
 // As an example, let's introduce an invariant that states that *"A Basket can have no more than three Products"*.
 // Let's write a test that proves that the a `BasketLimitReached` exception is thrown when we try to violate the invariant.
 $test = function() {
-    $basket = BasketV2::create(BasketId::generate());
+    $basket = BasketV2::pickUp(BasketId::generate());
     $basket->addProduct(new ProductId('TPB1'), "The Princess Bride");
     $basket->addProduct(new ProductId('TPB2'), "The book");
     $basket->addProduct(new ProductId('TPB3'), "The DVD");
@@ -32,11 +32,11 @@ final class BasketV2 implements RecordsEvents
 {
     private $productCount;
 
-    public static function create(BasketId $basketId)
+    public static function pickUp(BasketId $basketId)
     {
         $basket = new BasketV2($basketId);
         $basket->recordThat(
-            new BasketWasCreated($basketId)
+            new BasketWasPickedUp($basketId)
         );
         // A new basket doesn't have any products yet. It's good to set the initial state explicitly here.
         $basket->productCount = 0;

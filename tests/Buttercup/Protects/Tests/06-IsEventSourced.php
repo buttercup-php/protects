@@ -16,7 +16,7 @@ use Verraes\ClassFunctions\ClassFunctions;
 
 $test = function() {
     $basketId = BasketId::generate();
-    $basket = BasketV4::create($basketId);
+    $basket = BasketV4::pickUp($basketId);
     $productId = new ProductId('TPB1');
     $basket->addProduct($productId, "The Princess Bride");
     $basket->addProduct(new ProductId('TPB2'), "The book");
@@ -38,7 +38,7 @@ final class BasketV4 implements RecordsEvents, IsEventSourced
 {
 
     // The `IsEventSourced` interface requires us to implement a `reconstituteFrom(AggregateHistory)` static method.
-    // This method is like an alternative constructor. Recall that we had `create()` earlier, which was the constructor
+    // This method is like an alternative constructor. Recall that we had `pickUp()` earlier, which was the constructor
     // for calling the Basket into life. `Reconstitute` implies that this Basket already exists conceptually, but that
     // we suspended it temporarily by unloading it from memory. The difference is subtle but important.
     /**
@@ -56,7 +56,7 @@ final class BasketV4 implements RecordsEvents, IsEventSourced
 
         foreach($aggregateHistory as $event) {
             // As you saw earlier, our Aggregate keeps state, to protect invariants. We need to rebuild this state from
-            // the events in the `AggregateHistory`. But there's a problem: we can't call methods like `create()`,
+            // the events in the `AggregateHistory`. But there's a problem: we can't call methods like `pickUp()`,
             // `addProduct()`, and `removeProduct()`, because these would call `recordThat()`. That would cause the
             // events to be recorded a second time.
 
@@ -77,7 +77,7 @@ final class BasketV4 implements RecordsEvents, IsEventSourced
     }
 
     // Inside each `applyEventName()` method, we manipulate the state. The first one is not very interesting.
-    private function applyBasketWasCreated(BasketWasCreated $event)
+    private function applyBasketWasPickedUp(BasketWasPickedUp $event)
     {
         $this->productCount = 0;
         $this->products = [];
@@ -101,11 +101,11 @@ final class BasketV4 implements RecordsEvents, IsEventSourced
         --$this->productCount;
     }
 
-    public static function create(BasketId $basketId)
+    public static function pickUp(BasketId $basketId)
     {
         $basket = new BasketV4($basketId);
-        $basket->recordThat(new BasketWasCreated($basketId));
-        // We moved the code that was on this line, to the `applyBasketWasCreated()` method.
+        $basket->recordThat(new BasketWasPickedUp($basketId));
+        // We moved the code that was on this line, to the `applyBasketWasPickedUp()` method.
         return $basket;
     }
     public function addProduct(ProductId $productId, $name)

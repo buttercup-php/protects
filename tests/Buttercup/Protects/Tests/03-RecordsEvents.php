@@ -11,17 +11,17 @@ use Buttercup\Protects\Tests\Misc\ProductId;
 
 // Being good TDD'ers, let's write our tests first.
 $test = function() {
-    // We create a Basket, add a product, and remove the product again.
-    $myBasket = Basket::create(BasketId::generate());
-    $myBasket->addProduct(new ProductId('TPB123'), "The Princess Bride");
-    $myBasket->removeProduct(new ProductId('TPB123'));
+    // We pick up a Basket, add a product, and remove the product again.
+    $basket = Basket::pickUp(BasketId::generate());
+    $basket->addProduct(new ProductId('TPB123'), "The Princess Bride");
+    $basket->removeProduct(new ProductId('TPB123'));
 
     // We'll want the recorded events to reflect that these three operations have happened.
-    $events = $myBasket->getRecordedEvents();
+    $events = $basket->getRecordedEvents();
     it("should have recorded 3 events",
         3 == count($events));
-    it("should have a BasketWasCreated event",
-        $events[0] instanceof BasketWasCreated);
+    it("should have a BasketWasPickedUp event",
+        $events[0] instanceof BasketWasPickedUp);
     it("should have a ProductWasAddedToBasket event",
         $events[1] instanceof ProductWasAddedToBasket);
     it("should have a ProductWasRemovedFromBasket event",
@@ -29,9 +29,9 @@ $test = function() {
 
     // We'll want a way to clear the events, so that the next time we call a method on Basket, we don't get a list with
     // old and new events mixed in the same result.
-    $myBasket->clearRecordedEvents();
+    $basket->clearRecordedEvents();
     it("should have no more events after clearing it",
-        0 == count($myBasket->getRecordedEvents()));
+        0 == count($basket->getRecordedEvents()));
 };
 
 // We'll implement the simplest Basket we can to satisfy the tests. By ignoring the PHP syntax, you can read the class
@@ -44,7 +44,7 @@ final class Basket implements RecordsEvents
      */
     private $basketId;
 
-    // The **constructor is private**. Currently the only way to instantiate it, is by using `create()`.
+    // The **constructor is private**. Currently the only way to instantiate it, is by using `pickUp()`.
     // We'll add another way later.
     private function __construct(BasketId $basketId)
     {
@@ -52,13 +52,13 @@ final class Basket implements RecordsEvents
     }
 
     // A simple little static factory. Note that it records an event as well.
-    public static function create(BasketId $basketId)
+    public static function pickUp(BasketId $basketId)
     {
         $basket = new Basket($basketId);
         // Again, this reads very naturally:
-        // > Record that a basket was created.
+        // > Record that a basket was picked up.
         $basket->recordThat(
-            new BasketWasCreated($basketId)
+            new BasketWasPickedUp($basketId)
         );
         return $basket;
     }

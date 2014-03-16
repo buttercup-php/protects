@@ -44,7 +44,7 @@ final class BasketRepository implements AggregateRepository
 
 
 $basketId = BasketId::generate();
-$basket = BasketV4::create($basketId);
+$basket = BasketV4::pickUp($basketId);
 $basket->addProduct(ProductId::fromString('TPB01'), "The Princess Bride");
 
 $baskets = new BasketRepository(new InMemoryEventStore());

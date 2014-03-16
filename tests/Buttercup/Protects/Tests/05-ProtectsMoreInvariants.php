@@ -16,12 +16,12 @@ use Buttercup\Protects\Tests\Misc\ProductId;
 // in fact, that would not be necessary in this case. We could simply ignore the second attempt. After all, the
 // Basket would still be in a consistent state.
 $test = function() {
-    $basket = BasketV3::create(BasketId::generate());
+    $basket = BasketV3::pickUp(BasketId::generate());
     $productId = new ProductId('TPB1');
     $basket->addProduct($productId, "The Princess Bride");
     $basket->removeProduct($productId);
     $basket->removeProduct($productId);
-    // `create()`, `addProduct()` and the first `removeProduct()` have resulted in one event each, but the last call
+    // `pickUp()`, `addProduct()` and the first `removeProduct()` have resulted in one event each, but the last call
     // to `removeProduct()` has not.
     it("should not record an event when removing a Product that is no longer in the Basket",
         count($basket->getRecordedEvents()) == 3
@@ -92,7 +92,7 @@ final class BasketV3 implements RecordsEvents
     private $basketId;
     private $latestRecordedEvents = [];
     private function guardProductLimit() { if ($this->productCount >= 3) { throw new BasketLimitReached; } }
-    public static function create(BasketId $basketId) { $basket = new BasketV3($basketId); $basket->recordThat( new BasketWasCreated($basketId) ); $basket->productCount = 0; $basket->products = []; return $basket; }
+    public static function pickUp(BasketId $basketId) { $basket = new BasketV3($basketId); $basket->recordThat( new BasketWasPickedUp($basketId) ); $basket->productCount = 0; $basket->products = []; return $basket; }
     private function __construct(BasketId $basketId) { $this->basketId = $basketId; }
     private function recordThat(DomainEvent $domainEvent) { $this->latestRecordedEvents[] = $domainEvent; }
     public function getRecordedEvents() { return new DomainEvents($this->latestRecordedEvents); }

@@ -10,7 +10,7 @@ use Buttercup\Protects\Tests\Misc\ProductId;
 // For the sake of the example, we imagine a simple e-commerce system. We're very interested in what people put in their
 // shopping basket, and what they take out. Because every shopping session starts with a new basket, we're interested in
 // that event as well.
-final class BasketWasCreated implements DomainEvent
+final class BasketWasPickedUp implements DomainEvent
 {
     private $basketId;
 
@@ -26,8 +26,9 @@ final class BasketWasCreated implements DomainEvent
 }
 
 // You've already noticed some interesting concepts:
-// - The name of the event is in the past tense. `BasketWasCreated` fits nicely into our **Ubiquitous Language**.
-// `BasketCreated` would've worked as well, but I like to make sentences.
+// - The name of the event is in the past tense. `BasketWasPickedUp` fits nicely into our **Ubiquitous Language**. We
+// could have called it something bland like `BasketWasCreated`, but I want to illustrate the use of language.
+// `BasketPickedUp`, without the 'was', would've worked as well. I prefer to make sentences though.
 // - We implement `DomainEvent`.
 // - The `getAggregateId()` method returns `IdentifiesAggregate`. We'll get to **Aggregates** soon.
 final class ProductWasAddedToBasket implements DomainEvent
