@@ -129,7 +129,7 @@ Let’s write a test that proves that the a <code>BasketLimitReached</code> exce
             </div>
             
             <div class="content"><div class='highlight'><pre><span class="hljs-variable">$test</span> = <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span>
-    <span class="hljs-variable">$basket</span> = BasketV2::create(BasketId::generate());
+    <span class="hljs-variable">$basket</span> = BasketV2::pickUp(BasketId::generate());
     <span class="hljs-variable">$basket</span>-&gt;addProduct(<span class="hljs-keyword">new</span> ProductId(<span class="hljs-string">'TPB1'</span>), <span class="hljs-string">"The Princess Bride"</span>);
     <span class="hljs-variable">$basket</span>-&gt;addProduct(<span class="hljs-keyword">new</span> ProductId(<span class="hljs-string">'TPB2'</span>), <span class="hljs-string">"The book"</span>);
     <span class="hljs-variable">$basket</span>-&gt;addProduct(<span class="hljs-keyword">new</span> ProductId(<span class="hljs-string">'TPB3'</span>), <span class="hljs-string">"The DVD"</span>);
@@ -157,11 +157,11 @@ Let’s write a test that proves that the a <code>BasketLimitReached</code> exce
 {</span>
     <span class="hljs-keyword">private</span> <span class="hljs-variable">$productCount</span>;
 
-    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">create</span><span class="hljs-params">(BasketId <span class="hljs-variable">$basketId</span>)</span>
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">pickUp</span><span class="hljs-params">(BasketId <span class="hljs-variable">$basketId</span>)</span>
     {</span>
         <span class="hljs-variable">$basket</span> = <span class="hljs-keyword">new</span> BasketV2(<span class="hljs-variable">$basketId</span>);
         <span class="hljs-variable">$basket</span>-&gt;recordThat(
-            <span class="hljs-keyword">new</span> BasketWasCreated(<span class="hljs-variable">$basketId</span>)
+            <span class="hljs-keyword">new</span> BasketWasPickedUp(<span class="hljs-variable">$basketId</span>)
         );</pre></div></div>
             
         </li>

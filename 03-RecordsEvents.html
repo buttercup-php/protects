@@ -134,13 +134,13 @@ the objects themselves responsible for recording whatever happened to them? We c
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-4">&#182;</a>
               </div>
-              <p>We create a Basket, add a product, and remove the product again.</p>
+              <p>We pick up a Basket, add a product, and remove the product again.</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>    <span class="hljs-variable">$myBasket</span> = Basket::create(BasketId::generate());
-    <span class="hljs-variable">$myBasket</span>-&gt;addProduct(<span class="hljs-keyword">new</span> ProductId(<span class="hljs-string">'TPB123'</span>), <span class="hljs-string">"The Princess Bride"</span>);
-    <span class="hljs-variable">$myBasket</span>-&gt;removeProduct(<span class="hljs-keyword">new</span> ProductId(<span class="hljs-string">'TPB123'</span>));</pre></div></div>
+            <div class="content"><div class='highlight'><pre>    <span class="hljs-variable">$basket</span> = Basket::pickUp(BasketId::generate());
+    <span class="hljs-variable">$basket</span>-&gt;addProduct(<span class="hljs-keyword">new</span> ProductId(<span class="hljs-string">'TPB123'</span>), <span class="hljs-string">"The Princess Bride"</span>);
+    <span class="hljs-variable">$basket</span>-&gt;removeProduct(<span class="hljs-keyword">new</span> ProductId(<span class="hljs-string">'TPB123'</span>));</pre></div></div>
             
         </li>
         
@@ -155,11 +155,11 @@ the objects themselves responsible for recording whatever happened to them? We c
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>    <span class="hljs-variable">$events</span> = <span class="hljs-variable">$myBasket</span>-&gt;getRecordedEvents();
+            <div class="content"><div class='highlight'><pre>    <span class="hljs-variable">$events</span> = <span class="hljs-variable">$basket</span>-&gt;getRecordedEvents();
     it(<span class="hljs-string">"should have recorded 3 events"</span>,
         <span class="hljs-number">3</span> == count(<span class="hljs-variable">$events</span>));
-    it(<span class="hljs-string">"should have a BasketWasCreated event"</span>,
-        <span class="hljs-variable">$events</span>[<span class="hljs-number">0</span>] <span class="hljs-keyword">instanceof</span> BasketWasCreated);
+    it(<span class="hljs-string">"should have a BasketWasPickedUp event"</span>,
+        <span class="hljs-variable">$events</span>[<span class="hljs-number">0</span>] <span class="hljs-keyword">instanceof</span> BasketWasPickedUp);
     it(<span class="hljs-string">"should have a ProductWasAddedToBasket event"</span>,
         <span class="hljs-variable">$events</span>[<span class="hljs-number">1</span>] <span class="hljs-keyword">instanceof</span> ProductWasAddedToBasket);
     it(<span class="hljs-string">"should have a ProductWasRemovedFromBasket event"</span>,
@@ -179,9 +179,9 @@ old and new events mixed in the same result.</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>    <span class="hljs-variable">$myBasket</span>-&gt;clearRecordedEvents();
+            <div class="content"><div class='highlight'><pre>    <span class="hljs-variable">$basket</span>-&gt;clearRecordedEvents();
     it(<span class="hljs-string">"should have no more events after clearing it"</span>,
-        <span class="hljs-number">0</span> == count(<span class="hljs-variable">$myBasket</span>-&gt;getRecordedEvents()));
+        <span class="hljs-number">0</span> == count(<span class="hljs-variable">$basket</span>-&gt;getRecordedEvents()));
 };</pre></div></div>
             
         </li>
@@ -217,7 +217,7 @@ definition as <strong>natural language</strong>:</p>
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-8">&#182;</a>
               </div>
-              <p>The <strong>constructor is private</strong>. Currently the only way to instantiate it, is by using <code>create()</code>.
+              <p>The <strong>constructor is private</strong>. Currently the only way to instantiate it, is by using <code>pickUp()</code>.
 We’ll add another way later.</p>
 
             </div>
@@ -240,7 +240,7 @@ We’ll add another way later.</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">create</span><span class="hljs-params">(BasketId <span class="hljs-variable">$basketId</span>)</span>
+            <div class="content"><div class='highlight'><pre>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">pickUp</span><span class="hljs-params">(BasketId <span class="hljs-variable">$basketId</span>)</span>
     {</span>
         <span class="hljs-variable">$basket</span> = <span class="hljs-keyword">new</span> Basket(<span class="hljs-variable">$basketId</span>);</pre></div></div>
             
@@ -255,13 +255,13 @@ We’ll add another way later.</p>
               </div>
               <p>Again, this reads very naturally:</p>
 <blockquote>
-<p>Record that a basket was created.</p>
+<p>Record that a basket was picked up.</p>
 </blockquote>
 
             </div>
             
             <div class="content"><div class='highlight'><pre>        <span class="hljs-variable">$basket</span>-&gt;recordThat(
-            <span class="hljs-keyword">new</span> BasketWasCreated(<span class="hljs-variable">$basketId</span>)
+            <span class="hljs-keyword">new</span> BasketWasPickedUp(<span class="hljs-variable">$basketId</span>)
         );
         <span class="hljs-keyword">return</span> <span class="hljs-variable">$basket</span>;
     }</pre></div></div>

@@ -171,7 +171,7 @@ that to the complexity of traditional ORMs.</p>
 
 
 <span class="hljs-variable">$basketId</span> = BasketId::generate();
-<span class="hljs-variable">$basket</span> = BasketV4::create(<span class="hljs-variable">$basketId</span>);
+<span class="hljs-variable">$basket</span> = BasketV4::pickUp(<span class="hljs-variable">$basketId</span>);
 <span class="hljs-variable">$basket</span>-&gt;addProduct(ProductId::fromString(<span class="hljs-string">'TPB01'</span>), <span class="hljs-string">"The Princess Bride"</span>);
 
 <span class="hljs-variable">$baskets</span> = <span class="hljs-keyword">new</span> BasketRepository(<span class="hljs-keyword">new</span> InMemoryEventStore());

@@ -123,7 +123,7 @@ that event as well.</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">final</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">BasketWasCreated</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">DomainEvent</span>
+            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">final</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">BasketWasPickedUp</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">DomainEvent</span>
 {</span>
     <span class="hljs-keyword">private</span> <span class="hljs-variable">$basketId</span>;
 
@@ -149,8 +149,9 @@ that event as well.</p>
               </div>
               <p>You’ve already noticed some interesting concepts:</p>
 <ul>
-<li>The name of the event is in the past tense. <code>BasketWasCreated</code> fits nicely into our <strong>Ubiquitous Language</strong>.
-<code>BasketCreated</code> would’ve worked as well, but I like to make sentences.</li>
+<li>The name of the event is in the past tense. <code>BasketWasPickedUp</code> fits nicely into our <strong>Ubiquitous Language</strong>. We
+could have called it something bland like <code>BasketWasCreated</code>, but I want to illustrate the use of language.
+<code>BasketPickedUp</code>, without the ‘was’, would’ve worked as well. I prefer to make sentences though.</li>
 <li>We implement <code>DomainEvent</code>.</li>
 <li>The <code>getAggregateId()</code> method returns <code>IdentifiesAggregate</code>. We’ll get to <strong>Aggregates</strong> soon.</li>
 </ul>

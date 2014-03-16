@@ -131,7 +131,7 @@ Basket would still be in a consistent state.</p>
             </div>
             
             <div class="content"><div class='highlight'><pre><span class="hljs-variable">$test</span> = <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span>
-    <span class="hljs-variable">$basket</span> = BasketV3::create(BasketId::generate());
+    <span class="hljs-variable">$basket</span> = BasketV3::pickUp(BasketId::generate());
     <span class="hljs-variable">$productId</span> = <span class="hljs-keyword">new</span> ProductId(<span class="hljs-string">'TPB1'</span>);
     <span class="hljs-variable">$basket</span>-&gt;addProduct(<span class="hljs-variable">$productId</span>, <span class="hljs-string">"The Princess Bride"</span>);
     <span class="hljs-variable">$basket</span>-&gt;removeProduct(<span class="hljs-variable">$productId</span>);
@@ -146,7 +146,7 @@ Basket would still be in a consistent state.</p>
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-4">&#182;</a>
               </div>
-              <p><code>create()</code>, <code>addProduct()</code> and the first <code>removeProduct()</code> have resulted in one event each, but the last call
+              <p><code>pickUp()</code>, <code>addProduct()</code> and the first <code>removeProduct()</code> have resulted in one event each, but the last call
 to <code>removeProduct()</code> has not.</p>
 
             </div>
@@ -307,7 +307,7 @@ happens.</p>
             <div class="content"><div class='highlight'><pre>    <span class="hljs-keyword">private</span> <span class="hljs-variable">$basketId</span>;
     <span class="hljs-keyword">private</span> <span class="hljs-variable">$latestRecordedEvents</span> = [];
     <span class="hljs-keyword">private</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">guardProductLimit</span><span class="hljs-params">()</span> {</span> <span class="hljs-keyword">if</span> (<span class="hljs-variable">$this</span>-&gt;productCount &gt;= <span class="hljs-number">3</span>) { <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> BasketLimitReached; } }
-    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">create</span><span class="hljs-params">(BasketId <span class="hljs-variable">$basketId</span>)</span> {</span> <span class="hljs-variable">$basket</span> = <span class="hljs-keyword">new</span> BasketV3(<span class="hljs-variable">$basketId</span>); <span class="hljs-variable">$basket</span>-&gt;recordThat( <span class="hljs-keyword">new</span> BasketWasCreated(<span class="hljs-variable">$basketId</span>) ); <span class="hljs-variable">$basket</span>-&gt;productCount = <span class="hljs-number">0</span>; <span class="hljs-variable">$basket</span>-&gt;products = []; <span class="hljs-keyword">return</span> <span class="hljs-variable">$basket</span>; }
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">pickUp</span><span class="hljs-params">(BasketId <span class="hljs-variable">$basketId</span>)</span> {</span> <span class="hljs-variable">$basket</span> = <span class="hljs-keyword">new</span> BasketV3(<span class="hljs-variable">$basketId</span>); <span class="hljs-variable">$basket</span>-&gt;recordThat( <span class="hljs-keyword">new</span> BasketWasPickedUp(<span class="hljs-variable">$basketId</span>) ); <span class="hljs-variable">$basket</span>-&gt;productCount = <span class="hljs-number">0</span>; <span class="hljs-variable">$basket</span>-&gt;products = []; <span class="hljs-keyword">return</span> <span class="hljs-variable">$basket</span>; }
     <span class="hljs-keyword">private</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">__construct</span><span class="hljs-params">(BasketId <span class="hljs-variable">$basketId</span>)</span> {</span> <span class="hljs-variable">$this</span>-&gt;basketId = <span class="hljs-variable">$basketId</span>; }
     <span class="hljs-keyword">private</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">recordThat</span><span class="hljs-params">(DomainEvent <span class="hljs-variable">$domainEvent</span>)</span> {</span> <span class="hljs-variable">$this</span>-&gt;latestRecordedEvents[] = <span class="hljs-variable">$domainEvent</span>; }
     <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">getRecordedEvents</span><span class="hljs-params">()</span> {</span> <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> DomainEvents(<span class="hljs-variable">$this</span>-&gt;latestRecordedEvents); }

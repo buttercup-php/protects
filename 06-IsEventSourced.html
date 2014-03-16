@@ -117,7 +117,7 @@ of elements that make up the Aggregate.</p>
 
 <span class="hljs-variable">$test</span> = <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span>
     <span class="hljs-variable">$basketId</span> = BasketId::generate();
-    <span class="hljs-variable">$basket</span> = BasketV4::create(<span class="hljs-variable">$basketId</span>);
+    <span class="hljs-variable">$basket</span> = BasketV4::pickUp(<span class="hljs-variable">$basketId</span>);
     <span class="hljs-variable">$productId</span> = <span class="hljs-keyword">new</span> ProductId(<span class="hljs-string">'TPB1'</span>);
     <span class="hljs-variable">$basket</span>-&gt;addProduct(<span class="hljs-variable">$productId</span>, <span class="hljs-string">"The Princess Bride"</span>);
     <span class="hljs-variable">$basket</span>-&gt;addProduct(<span class="hljs-keyword">new</span> ProductId(<span class="hljs-string">'TPB2'</span>), <span class="hljs-string">"The book"</span>);
@@ -173,7 +173,7 @@ of elements that make up the Aggregate.</p>
                 <a class="pilcrow" href="#section-5">&#182;</a>
               </div>
               <p>The <code>IsEventSourced</code> interface requires us to implement a <code>reconstituteFrom(AggregateHistory)</code> static method.
-This method is like an alternative constructor. Recall that we had <code>create()</code> earlier, which was the constructor
+This method is like an alternative constructor. Recall that we had <code>pickUp()</code> earlier, which was the constructor
 for calling the Basket into life. <code>Reconstitute</code> implies that this Basket already exists conceptually, but that
 we suspended it temporarily by unloading it from memory. The difference is subtle but important.</p>
 
@@ -230,7 +230,7 @@ fetching its identifier.</p>
                 <a class="pilcrow" href="#section-8">&#182;</a>
               </div>
               <p>As you saw earlier, our Aggregate keeps state, to protect invariants. We need to rebuild this state from
-the events in the <code>AggregateHistory</code>. But there’s a problem: we can’t call methods like <code>create()</code>,
+the events in the <code>AggregateHistory</code>. But there’s a problem: we can’t call methods like <code>pickUp()</code>,
 <code>addProduct()</code>, and <code>removeProduct()</code>, because these would call <code>recordThat()</code>. That would cause the
 events to be recorded a second time.</p>
 
@@ -302,7 +302,7 @@ to methods based on the class names of the events. Let’s do the latter.</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>    <span class="hljs-keyword">private</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">applyBasketWasCreated</span><span class="hljs-params">(BasketWasCreated <span class="hljs-variable">$event</span>)</span>
+            <div class="content"><div class='highlight'><pre>    <span class="hljs-keyword">private</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">applyBasketWasPickedUp</span><span class="hljs-params">(BasketWasPickedUp <span class="hljs-variable">$event</span>)</span>
     {</span>
         <span class="hljs-variable">$this</span>-&gt;productCount = <span class="hljs-number">0</span>;
         <span class="hljs-variable">$this</span>-&gt;products = [];
@@ -339,10 +339,10 @@ to methods based on the class names of the events. Let’s do the latter.</p>
         --<span class="hljs-variable">$this</span>-&gt;productCount;
     }
 
-    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">create</span><span class="hljs-params">(BasketId <span class="hljs-variable">$basketId</span>)</span>
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">pickUp</span><span class="hljs-params">(BasketId <span class="hljs-variable">$basketId</span>)</span>
     {</span>
         <span class="hljs-variable">$basket</span> = <span class="hljs-keyword">new</span> BasketV4(<span class="hljs-variable">$basketId</span>);
-        <span class="hljs-variable">$basket</span>-&gt;recordThat(<span class="hljs-keyword">new</span> BasketWasCreated(<span class="hljs-variable">$basketId</span>));</pre></div></div>
+        <span class="hljs-variable">$basket</span>-&gt;recordThat(<span class="hljs-keyword">new</span> BasketWasPickedUp(<span class="hljs-variable">$basketId</span>));</pre></div></div>
             
         </li>
         
@@ -353,7 +353,7 @@ to methods based on the class names of the events. Let’s do the latter.</p>
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-14">&#182;</a>
               </div>
-              <p>We moved the code that was on this line, to the <code>applyBasketWasCreated()</code> method.</p>
+              <p>We moved the code that was on this line, to the <code>applyBasketWasPickedUp()</code> method.</p>
 
             </div>
             
