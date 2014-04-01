@@ -17,7 +17,7 @@
         "email": "mathias@verraes.net",
         "wiki": "http://buttercup-php.github.io/protects/",
         "source": "https://github.com/buttercup-php/protects"
-    }
+    },
     "require-dev": {
         "mathiasverraes/classfunctions": "1.*"
     },
