@@ -3,7 +3,7 @@
     "description": "Buttercup.Protects is a PHP library for building Aggregates that protect business rules, and that announce Domain Events.",
     "minimum-stability": "dev",
     "license": "MIT",
-    "homepage": "https://github.com/buttercup-php",
+    "homepage": "http://buttercup-php.github.io/protects/",
     "authors": [
         {
             "name": "Mathias Verraes",
@@ -16,7 +16,8 @@
     "support": {
         "email": "mathias@verraes.net",
         "wiki": "http://buttercup-php.github.io/protects/",
-        "source": "https://github.com/buttercup-php/protects"
+        "source": "https://github.com/buttercup-php/protects",
+        "issues": "https://github.com/buttercup-php/protects/issues"
     },
     "require-dev": {
         "mathiasverraes/classfunctions": "1.*"
