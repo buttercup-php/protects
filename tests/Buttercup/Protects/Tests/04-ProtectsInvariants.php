@@ -4,7 +4,7 @@
 // having to worry about this consistency. Arguably, protecting invariants is one of the most important aspects of
 // building models, which is of course why this library is called *Buttercup.Protects*. But, ironically, the library
 // doesn't offer much help to actually protect invariants. Most likely, this is because invariants are very specific to
-// a articular domain anyway.
+// a particular domain anyway.
 namespace Buttercup\Protects\Tests;
 
 use Buttercup\Protects\DomainEvent;
