@@ -12,7 +12,7 @@ use Buttercup\Protects\DomainEvents;
 use Buttercup\Protects\IsEventSourced;
 use Buttercup\Protects\RecordsEvents;
 use Buttercup\Protects\Tests\Misc\ProductId;
-use Verraes\ClassFunctions\ClassFunctions;
+use Buttercup\Protects\Tests\Misc\When;
 
 $test = function() {
     $basketId = BasketId::generate();
@@ -36,6 +36,7 @@ $test = function() {
 // We declare that `Basket` `IsEventSourced`, in other words, that we can rebuild it from it's events.
 final class BasketV4 implements RecordsEvents, IsEventSourced
 {
+    use When;
 
     // The `IsEventSourced` interface requires us to implement a `reconstituteFrom(AggregateHistory)` static method.
     // This method is like an alternative constructor. Recall that we had `pickUp()` earlier, which was the constructor
@@ -61,29 +62,21 @@ final class BasketV4 implements RecordsEvents, IsEventSourced
             // events to be recorded a second time.
 
             // The trick is to separate the logic that applies events to the state. We'll call a new private method:
-            $basket->apply($event);
+            $basket->when($event);
         }
 
         // Finally we return the newly reconstituted Basket.
         return $basket;
     }
 
-    private function apply(DomainEvent $event)
-    {
-        // Unfortunately we don't have method overloading in PHP, so we can either use a `switch` clause, or delegate
-        // to methods based on the class names of the events. Let's do the latter.
-        $method = 'apply' . ClassFunctions::short($event);
-        $this->$method($event);
-    }
-
-    // Inside each `applyEventName()` method, we manipulate the state. The first one is not very interesting.
-    private function applyBasketWasPickedUp(BasketWasPickedUp $event)
+    // Inside each `whenEventName()` method, we manipulate the state. The first one is not very interesting.
+    private function whenBasketWasPickedUp(BasketWasPickedUp $event)
     {
         $this->productCount = 0;
         $this->products = [];
     }
 
-    private function applyProductWasAddedToBasket(ProductWasAddedToBasket $event)
+    private function whenProductWasAddedToBasket(ProductWasAddedToBasket $event)
     {
         // Remember that all of this code used to be in `addProduct()`
         $productId = $event->getProductId();
@@ -95,7 +88,7 @@ final class BasketV4 implements RecordsEvents, IsEventSourced
         ++$this->productCount;
     }
 
-    private function applyProductWasRemovedFromBasket(ProductWasRemovedFromBasket $event)
+    private function whenProductWasRemovedFromBasket(ProductWasRemovedFromBasket $event)
     {
         --$this->products[(string) $event->getProductId()];
         --$this->productCount;
@@ -105,7 +98,7 @@ final class BasketV4 implements RecordsEvents, IsEventSourced
     {
         $basket = new BasketV4($basketId);
         $basket->recordThat(new BasketWasPickedUp($basketId));
-        // We moved the code that was on this line, to the `applyBasketWasPickedUp()` method.
+        // We moved the code that was on this line, to the `whenBasketWasPickedUp()` method.
         return $basket;
     }
     public function addProduct(ProductId $productId, $name)
@@ -114,7 +107,7 @@ final class BasketV4 implements RecordsEvents, IsEventSourced
         $this->recordThat(
             new ProductWasAddedToBasket($this->basketId, $productId, $name)
         );
-        // The code from this line, is now in `applyProductWasAddedToBasket().
+        // The code that used to be here, is now in `whenProductWasAddedToBasket().
     }
 
     public function removeProduct(ProductId $productId)
@@ -126,14 +119,15 @@ final class BasketV4 implements RecordsEvents, IsEventSourced
         $this->recordThat(
             new ProductWasRemovedFromBasket($this->basketId, $productId)
         );
-        // And this code moved to `applyProductWasRemovedFromBasket()`
+        // And this code moved to `whenProductWasRemovedFromBasket()`.
     }
 
     private function recordThat(DomainEvent $domainEvent)
     {
         $this->latestRecordedEvents[] = $domainEvent;
         // Finally, we make sure that newly recorded events are still being applied to the state.
-        $this->apply($domainEvent);
+        // when($domainEvent) delegates to whenDomainEvent($domainEvent)
+        $this->when($domainEvent);
     }
 
     // no changes here
