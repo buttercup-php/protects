@@ -10,4 +10,5 @@ namespace Buttercup\Protects;
 trait When 
 {
     abstract protected function when(DomainEvent $event);
+    abstract protected function whenAll(DomainEvents $events);
 } 
