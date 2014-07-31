@@ -124,17 +124,17 @@ that event as well.</p>
             </div>
             
             <div class="content"><div class='highlight'><pre><span class="hljs-keyword">final</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">BasketWasPickedUp</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">DomainEvent</span>
-{</span>
+</span>{
     <span class="hljs-keyword">private</span> <span class="hljs-variable">$basketId</span>;
 
     <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">__construct</span><span class="hljs-params">(BasketId <span class="hljs-variable">$basketId</span>)</span>
-    {</span>
-        <span class="hljs-variable">$this</span>-&gt;basketId = <span class="hljs-variable">$basketId</span>;
+    </span>{
+        <span class="hljs-variable">$this</span><span class="hljs-variable">-&gt;basketId</span> = <span class="hljs-variable">$basketId</span>;
     }
 
     <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">getAggregateId</span><span class="hljs-params">()</span>
-    {</span>
-        <span class="hljs-keyword">return</span> <span class="hljs-variable">$this</span>-&gt;basketId;
+    </span>{
+        <span class="hljs-keyword">return</span> <span class="hljs-variable">$this</span><span class="hljs-variable">-&gt;basketId</span>;
     }
 }</pre></div></div>
             
@@ -159,7 +159,7 @@ could have called it something bland like <code>BasketWasCreated</code>, but I w
             </div>
             
             <div class="content"><div class='highlight'><pre><span class="hljs-keyword">final</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">ProductWasAddedToBasket</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">DomainEvent</span>
-{</span>
+</span>{
     <span class="hljs-keyword">private</span> <span class="hljs-variable">$basketId</span>;
     <span class="hljs-keyword">private</span> <span class="hljs-variable">$productId</span>;
     <span class="hljs-keyword">private</span> <span class="hljs-variable">$productName</span>;</pre></div></div>
@@ -178,15 +178,15 @@ could have called it something bland like <code>BasketWasCreated</code>, but I w
             </div>
             
             <div class="content"><div class='highlight'><pre>    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">__construct</span><span class="hljs-params">(BasketId <span class="hljs-variable">$basketId</span>, ProductId <span class="hljs-variable">$productId</span>, <span class="hljs-variable">$productName</span>)</span>
-    {</span>
-        <span class="hljs-variable">$this</span>-&gt;basketId = <span class="hljs-variable">$basketId</span>;
-        <span class="hljs-variable">$this</span>-&gt;productName = <span class="hljs-variable">$productName</span>;
-        <span class="hljs-variable">$this</span>-&gt;productId = <span class="hljs-variable">$productId</span>;
+    </span>{
+        <span class="hljs-variable">$this</span><span class="hljs-variable">-&gt;basketId</span> = <span class="hljs-variable">$basketId</span>;
+        <span class="hljs-variable">$this</span><span class="hljs-variable">-&gt;productName</span> = <span class="hljs-variable">$productName</span>;
+        <span class="hljs-variable">$this</span><span class="hljs-variable">-&gt;productId</span> = <span class="hljs-variable">$productId</span>;
     }
 
     <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">getAggregateId</span><span class="hljs-params">()</span>
-    {</span>
-        <span class="hljs-keyword">return</span> <span class="hljs-variable">$this</span>-&gt;basketId;
+    </span>{
+        <span class="hljs-keyword">return</span> <span class="hljs-variable">$this</span><span class="hljs-variable">-&gt;basketId</span>;
     }</pre></div></div>
             
         </li>
@@ -204,8 +204,8 @@ need it, and what it would look like. All we know is that in this context, we’
             </div>
             
             <div class="content"><div class='highlight'><pre>    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">getProductId</span><span class="hljs-params">()</span>
-    {</span>
-        <span class="hljs-keyword">return</span> <span class="hljs-variable">$this</span>-&gt;productId;
+    </span>{
+        <span class="hljs-keyword">return</span> <span class="hljs-variable">$this</span><span class="hljs-variable">-&gt;productId</span>;
     }</pre></div></div>
             
         </li>
@@ -222,8 +222,8 @@ need it, and what it would look like. All we know is that in this context, we’
             </div>
             
             <div class="content"><div class='highlight'><pre>    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">getProductName</span><span class="hljs-params">()</span>
-    {</span>
-        <span class="hljs-keyword">return</span> <span class="hljs-variable">$this</span>-&gt;productName;
+    </span>{
+        <span class="hljs-keyword">return</span> <span class="hljs-variable">$this</span><span class="hljs-variable">-&gt;productName</span>;
     }
 }</pre></div></div>
             
@@ -242,24 +242,24 @@ are No setters. That makes perfect sense: History can’t be altered!</p>
             </div>
             
             <div class="content"><div class='highlight'><pre><span class="hljs-keyword">final</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">ProductWasRemovedFromBasket</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">DomainEvent</span>
-{</span>
+</span>{
     <span class="hljs-keyword">private</span> <span class="hljs-variable">$basketId</span>;
     <span class="hljs-keyword">private</span> <span class="hljs-variable">$productId</span>;
 
     <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">__construct</span><span class="hljs-params">(BasketId <span class="hljs-variable">$basketId</span>, ProductId <span class="hljs-variable">$productId</span>)</span>
-    {</span>
-        <span class="hljs-variable">$this</span>-&gt;basketId = <span class="hljs-variable">$basketId</span>;
-        <span class="hljs-variable">$this</span>-&gt;productId = <span class="hljs-variable">$productId</span>;
+    </span>{
+        <span class="hljs-variable">$this</span><span class="hljs-variable">-&gt;basketId</span> = <span class="hljs-variable">$basketId</span>;
+        <span class="hljs-variable">$this</span><span class="hljs-variable">-&gt;productId</span> = <span class="hljs-variable">$productId</span>;
     }
 
     <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">getAggregateId</span><span class="hljs-params">()</span>
-    {</span>
-        <span class="hljs-keyword">return</span> <span class="hljs-variable">$this</span>-&gt;basketId;
+    </span>{
+        <span class="hljs-keyword">return</span> <span class="hljs-variable">$this</span><span class="hljs-variable">-&gt;basketId</span>;
     }
 
     <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">getProductId</span><span class="hljs-params">()</span>
-    {</span>
-        <span class="hljs-keyword">return</span> <span class="hljs-variable">$this</span>-&gt;productId;
+    </span>{
+        <span class="hljs-keyword">return</span> <span class="hljs-variable">$this</span><span class="hljs-variable">-&gt;productId</span>;
     }
 }</pre></div></div>
             
@@ -278,11 +278,11 @@ are No setters. That makes perfect sense: History can’t be altered!</p>
             
             <div class="content"><div class='highlight'><pre><span class="hljs-variable">$event</span> = <span class="hljs-keyword">new</span> ProductWasAddedToBasket(<span class="hljs-keyword">new</span> BasketId(<span class="hljs-string">'BAS1'</span>), <span class="hljs-keyword">new</span> ProductId(<span class="hljs-string">'PRO1'</span>), <span class="hljs-string">"The Princess Bride"</span>);
 it(<span class="hljs-string">'should equal another instance with the same value'</span>,
-    <span class="hljs-variable">$event</span>-&gt;getAggregateId()-&gt;equals(<span class="hljs-keyword">new</span> BasketId(<span class="hljs-string">'BAS1'</span>)));
+    <span class="hljs-variable">$event</span><span class="hljs-variable">-&gt;getAggregateId</span>()<span class="hljs-variable">-&gt;equals</span>(<span class="hljs-keyword">new</span> BasketId(<span class="hljs-string">'BAS1'</span>)));
 it(<span class="hljs-string">"should expose a ProductId"</span>,
-    <span class="hljs-variable">$event</span>-&gt;getProductId()-&gt;equals(<span class="hljs-keyword">new</span> ProductId(<span class="hljs-string">'PRO1'</span>)));
+    <span class="hljs-variable">$event</span><span class="hljs-variable">-&gt;getProductId</span>()<span class="hljs-variable">-&gt;equals</span>(<span class="hljs-keyword">new</span> ProductId(<span class="hljs-string">'PRO1'</span>)));
 it(<span class="hljs-string">"should expose a productName"</span>,
-    <span class="hljs-variable">$event</span>-&gt;getProductName() == <span class="hljs-string">"The Princess Bride"</span>);</pre></div></div>
+    <span class="hljs-variable">$event</span><span class="hljs-variable">-&gt;getProductName</span>() == <span class="hljs-string">"The Princess Bride"</span>);</pre></div></div>
             
         </li>
         

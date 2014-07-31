@@ -123,7 +123,7 @@ the objects themselves responsible for recording whatever happened to them? We c
 
             </div>
             
-            <div class="content"><div class='highlight'><pre><span class="hljs-variable">$test</span> = <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span></pre></div></div>
+            <div class="content"><div class='highlight'><pre><span class="hljs-variable">$test</span> = <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> </span>{</pre></div></div>
             
         </li>
         
@@ -139,8 +139,8 @@ the objects themselves responsible for recording whatever happened to them? We c
             </div>
             
             <div class="content"><div class='highlight'><pre>    <span class="hljs-variable">$basket</span> = Basket::pickUp(BasketId::generate());
-    <span class="hljs-variable">$basket</span>-&gt;addProduct(<span class="hljs-keyword">new</span> ProductId(<span class="hljs-string">'TPB123'</span>), <span class="hljs-string">"The Princess Bride"</span>);
-    <span class="hljs-variable">$basket</span>-&gt;removeProduct(<span class="hljs-keyword">new</span> ProductId(<span class="hljs-string">'TPB123'</span>));</pre></div></div>
+    <span class="hljs-variable">$basket</span><span class="hljs-variable">-&gt;addProduct</span>(<span class="hljs-keyword">new</span> ProductId(<span class="hljs-string">'TPB123'</span>), <span class="hljs-string">"The Princess Bride"</span>);
+    <span class="hljs-variable">$basket</span><span class="hljs-variable">-&gt;removeProduct</span>(<span class="hljs-keyword">new</span> ProductId(<span class="hljs-string">'TPB123'</span>));</pre></div></div>
             
         </li>
         
@@ -155,7 +155,7 @@ the objects themselves responsible for recording whatever happened to them? We c
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>    <span class="hljs-variable">$events</span> = <span class="hljs-variable">$basket</span>-&gt;getRecordedEvents();
+            <div class="content"><div class='highlight'><pre>    <span class="hljs-variable">$events</span> = <span class="hljs-variable">$basket</span><span class="hljs-variable">-&gt;getRecordedEvents</span>();
     it(<span class="hljs-string">"should have recorded 3 events"</span>,
         <span class="hljs-number">3</span> == count(<span class="hljs-variable">$events</span>));
     it(<span class="hljs-string">"should have a BasketWasPickedUp event"</span>,
@@ -179,9 +179,9 @@ old and new events mixed in the same result.</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>    <span class="hljs-variable">$basket</span>-&gt;clearRecordedEvents();
+            <div class="content"><div class='highlight'><pre>    <span class="hljs-variable">$basket</span><span class="hljs-variable">-&gt;clearRecordedEvents</span>();
     it(<span class="hljs-string">"should have no more events after clearing it"</span>,
-        <span class="hljs-number">0</span> == count(<span class="hljs-variable">$basket</span>-&gt;getRecordedEvents()));
+        <span class="hljs-number">0</span> == count(<span class="hljs-variable">$basket</span><span class="hljs-variable">-&gt;getRecordedEvents</span>()));
 };</pre></div></div>
             
         </li>
@@ -202,7 +202,7 @@ definition as <strong>natural language</strong>:</p>
             </div>
             
             <div class="content"><div class='highlight'><pre><span class="hljs-keyword">final</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Basket</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">RecordsEvents</span>
-{</span>
+</span>{
     <span class="hljs-comment">/**
      *<span class="hljs-phpdoc"> @var</span> BasketId
      */</span>
@@ -223,8 +223,8 @@ We’ll add another way later.</p>
             </div>
             
             <div class="content"><div class='highlight'><pre>    <span class="hljs-keyword">private</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">__construct</span><span class="hljs-params">(BasketId <span class="hljs-variable">$basketId</span>)</span>
-    {</span>
-        <span class="hljs-variable">$this</span>-&gt;basketId = <span class="hljs-variable">$basketId</span>;
+    </span>{
+        <span class="hljs-variable">$this</span><span class="hljs-variable">-&gt;basketId</span> = <span class="hljs-variable">$basketId</span>;
     }</pre></div></div>
             
         </li>
@@ -241,7 +241,7 @@ We’ll add another way later.</p>
             </div>
             
             <div class="content"><div class='highlight'><pre>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">pickUp</span><span class="hljs-params">(BasketId <span class="hljs-variable">$basketId</span>)</span>
-    {</span>
+    </span>{
         <span class="hljs-variable">$basket</span> = <span class="hljs-keyword">new</span> Basket(<span class="hljs-variable">$basketId</span>);</pre></div></div>
             
         </li>
@@ -260,7 +260,7 @@ We’ll add another way later.</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>        <span class="hljs-variable">$basket</span>-&gt;recordThat(
+            <div class="content"><div class='highlight'><pre>        <span class="hljs-variable">$basket</span><span class="hljs-variable">-&gt;recordThat</span>(
             <span class="hljs-keyword">new</span> BasketWasPickedUp(<span class="hljs-variable">$basketId</span>)
         );
         <span class="hljs-keyword">return</span> <span class="hljs-variable">$basket</span>;
@@ -280,16 +280,16 @@ We’ll add another way later.</p>
             </div>
             
             <div class="content"><div class='highlight'><pre>    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">addProduct</span><span class="hljs-params">(ProductId <span class="hljs-variable">$productId</span>, <span class="hljs-variable">$name</span>)</span>
-    {</span>
-       <span class="hljs-variable">$this</span>-&gt;recordThat(
-           <span class="hljs-keyword">new</span> ProductWasAddedToBasket(<span class="hljs-variable">$this</span>-&gt;basketId, <span class="hljs-variable">$productId</span>, <span class="hljs-variable">$name</span>)
+    </span>{
+       <span class="hljs-variable">$this</span><span class="hljs-variable">-&gt;recordThat</span>(
+           <span class="hljs-keyword">new</span> ProductWasAddedToBasket(<span class="hljs-variable">$this</span><span class="hljs-variable">-&gt;basketId</span>, <span class="hljs-variable">$productId</span>, <span class="hljs-variable">$name</span>)
        );
     }
 
     <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">removeProduct</span><span class="hljs-params">(ProductId <span class="hljs-variable">$productId</span>)</span>
-    {</span>
-       <span class="hljs-variable">$this</span>-&gt;recordThat(
-           <span class="hljs-keyword">new</span> ProductWasRemovedFromBasket(<span class="hljs-variable">$this</span>-&gt;basketId, <span class="hljs-variable">$productId</span>)
+    </span>{
+       <span class="hljs-variable">$this</span><span class="hljs-variable">-&gt;recordThat</span>(
+           <span class="hljs-keyword">new</span> ProductWasRemovedFromBasket(<span class="hljs-variable">$this</span><span class="hljs-variable">-&gt;basketId</span>, <span class="hljs-variable">$productId</span>)
        );
     }</pre></div></div>
             
@@ -310,8 +310,8 @@ an abstract parent somewhere.</p>
             </div>
             
             <div class="content"><div class='highlight'><pre>    <span class="hljs-keyword">private</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">recordThat</span><span class="hljs-params">(DomainEvent <span class="hljs-variable">$domainEvent</span>)</span>
-    {</span>
-        <span class="hljs-variable">$this</span>-&gt;latestRecordedEvents[] = <span class="hljs-variable">$domainEvent</span>;
+    </span>{
+        <span class="hljs-variable">$this</span><span class="hljs-variable">-&gt;latestRecordedEvents</span>[] = <span class="hljs-variable">$domainEvent</span>;
     }</pre></div></div>
             
         </li>
@@ -352,7 +352,7 @@ was cleared, or since it was restored from persistence.</p>
      *<span class="hljs-phpdoc"> @return</span> DomainEvents
      */</span>
     <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">getRecordedEvents</span><span class="hljs-params">()</span>
-    {</span></pre></div></div>
+    </span>{</pre></div></div>
             
         </li>
         
@@ -367,7 +367,7 @@ was cleared, or since it was restored from persistence.</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>        <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> DomainEvents(<span class="hljs-variable">$this</span>-&gt;latestRecordedEvents);
+            <div class="content"><div class='highlight'><pre>        <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> DomainEvents(<span class="hljs-variable">$this</span><span class="hljs-variable">-&gt;latestRecordedEvents</span>);
     }</pre></div></div>
             
         </li>
@@ -384,8 +384,8 @@ was cleared, or since it was restored from persistence.</p>
             </div>
             
             <div class="content"><div class='highlight'><pre>    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">clearRecordedEvents</span><span class="hljs-params">()</span>
-    {</span>
-        <span class="hljs-variable">$this</span>-&gt;latestRecordedEvents = [];
+    </span>{
+        <span class="hljs-variable">$this</span><span class="hljs-variable">-&gt;latestRecordedEvents</span> = [];
     }
 }</pre></div></div>
             

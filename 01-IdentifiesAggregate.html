@@ -122,7 +122,7 @@ for it.</p>
             </div>
             
             <div class="content"><div class='highlight'><pre><span class="hljs-keyword">final</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">BasketId</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">IdentifiesAggregate</span>
-{</span>
+</span>{
     <span class="hljs-keyword">private</span> <span class="hljs-variable">$basketId</span>;</pre></div></div>
             
         </li>
@@ -143,25 +143,25 @@ could add some validation in there.</p>
      *<span class="hljs-phpdoc"> @param</span> string $basketId
      */</span>
     <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">__construct</span><span class="hljs-params">(<span class="hljs-variable">$basketId</span>)</span>
-    {</span>
-        <span class="hljs-variable">$this</span>-&gt;basketId = (string) <span class="hljs-variable">$basketId</span>;
+    </span>{
+        <span class="hljs-variable">$this</span><span class="hljs-variable">-&gt;basketId</span> = (string) <span class="hljs-variable">$basketId</span>;
     }
 
     <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">fromString</span><span class="hljs-params">(<span class="hljs-variable">$string</span>)</span>
-    {</span>
+    </span>{
         <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> BasketId(<span class="hljs-variable">$string</span>);
     }
 
     <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">__toString</span><span class="hljs-params">()</span>
-    {</span>
-        <span class="hljs-keyword">return</span> <span class="hljs-variable">$this</span>-&gt;basketId;
+    </span>{
+        <span class="hljs-keyword">return</span> <span class="hljs-variable">$this</span><span class="hljs-variable">-&gt;basketId</span>;
     }
 
     <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">equals</span><span class="hljs-params">(IdentifiesAggregate <span class="hljs-variable">$other</span>)</span>
-    {</span>
+    </span>{
         <span class="hljs-keyword">return</span>
             <span class="hljs-variable">$other</span> <span class="hljs-keyword">instanceof</span> BasketId
-            &amp;&amp; <span class="hljs-variable">$this</span>-&gt;basketId == <span class="hljs-variable">$other</span>-&gt;basketId;
+            &amp;&amp; <span class="hljs-variable">$this</span><span class="hljs-variable">-&gt;basketId</span> == <span class="hljs-variable">$other</span><span class="hljs-variable">-&gt;basketId</span>;
     }</pre></div></div>
             
         </li>
@@ -179,7 +179,7 @@ way to generate a UUID, so don’t do this in production. Use something like <a 
             </div>
             
             <div class="content"><div class='highlight'><pre>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">generate</span><span class="hljs-params">()</span>
-    {</span>
+    </span>{
         <span class="hljs-variable">$badSampleUuid</span> = md5(uniqid());
         <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> BasketId(<span class="hljs-variable">$badSampleUuid</span>);
     }
@@ -230,9 +230,9 @@ way to generate a UUID, so don’t do this in production. Use something like <a 
             </div>
             
             <div class="content"><div class='highlight'><pre>it(<span class="hljs-string">"should equal instances with the same type and value"</span>,
-    (<span class="hljs-keyword">new</span> BasketId(<span class="hljs-string">'same'</span>))-&gt;equals(<span class="hljs-keyword">new</span> BasketId(<span class="hljs-string">'same'</span>)));
+    (<span class="hljs-keyword">new</span> BasketId(<span class="hljs-string">'same'</span>))<span class="hljs-variable">-&gt;equals</span>(<span class="hljs-keyword">new</span> BasketId(<span class="hljs-string">'same'</span>)));
 it(<span class="hljs-string">"should not equal instances with a different value"</span>,
-    !(<span class="hljs-keyword">new</span> BasketId(<span class="hljs-string">'other'</span>))-&gt;equals(<span class="hljs-keyword">new</span> BasketId(<span class="hljs-string">'same'</span>)));</pre></div></div>
+    !(<span class="hljs-keyword">new</span> BasketId(<span class="hljs-string">'other'</span>))<span class="hljs-variable">-&gt;equals</span>(<span class="hljs-keyword">new</span> BasketId(<span class="hljs-string">'same'</span>)));</pre></div></div>
             
         </li>
         

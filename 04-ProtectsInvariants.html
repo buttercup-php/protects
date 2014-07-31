@@ -102,7 +102,7 @@
 having to worry about this consistency. Arguably, protecting invariants is one of the most important aspects of
 building models, which is of course why this library is called <em>Buttercup.Protects</em>. But, ironically, the library
 doesn’t offer much help to actually protect invariants. Most likely, this is because invariants are very specific to
-a articular domain anyway.</p>
+a particular domain anyway.</p>
 
             </div>
             
@@ -128,14 +128,14 @@ Let’s write a test that proves that the a <code>BasketLimitReached</code> exce
 
             </div>
             
-            <div class="content"><div class='highlight'><pre><span class="hljs-variable">$test</span> = <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span>
+            <div class="content"><div class='highlight'><pre><span class="hljs-variable">$test</span> = <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> </span>{
     <span class="hljs-variable">$basket</span> = BasketV2::pickUp(BasketId::generate());
-    <span class="hljs-variable">$basket</span>-&gt;addProduct(<span class="hljs-keyword">new</span> ProductId(<span class="hljs-string">'TPB1'</span>), <span class="hljs-string">"The Princess Bride"</span>);
-    <span class="hljs-variable">$basket</span>-&gt;addProduct(<span class="hljs-keyword">new</span> ProductId(<span class="hljs-string">'TPB2'</span>), <span class="hljs-string">"The book"</span>);
-    <span class="hljs-variable">$basket</span>-&gt;addProduct(<span class="hljs-keyword">new</span> ProductId(<span class="hljs-string">'TPB3'</span>), <span class="hljs-string">"The DVD"</span>);
+    <span class="hljs-variable">$basket</span><span class="hljs-variable">-&gt;addProduct</span>(<span class="hljs-keyword">new</span> ProductId(<span class="hljs-string">'TPB1'</span>), <span class="hljs-string">"The Princess Bride"</span>);
+    <span class="hljs-variable">$basket</span><span class="hljs-variable">-&gt;addProduct</span>(<span class="hljs-keyword">new</span> ProductId(<span class="hljs-string">'TPB2'</span>), <span class="hljs-string">"The book"</span>);
+    <span class="hljs-variable">$basket</span><span class="hljs-variable">-&gt;addProduct</span>(<span class="hljs-keyword">new</span> ProductId(<span class="hljs-string">'TPB3'</span>), <span class="hljs-string">"The DVD"</span>);
     it(<span class="hljs-string">"should disallow adding a fourth product"</span>,
-        throws(<span class="hljs-string">'Buttercup\Protects\Tests\BasketLimitReached'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">()</span> <span class="hljs-title">use</span><span class="hljs-params">(<span class="hljs-variable">$basket</span>)</span> {</span>
-            <span class="hljs-variable">$basket</span>-&gt;addProduct(<span class="hljs-keyword">new</span> ProductId(<span class="hljs-string">'TPB4'</span>), <span class="hljs-string">"The video game"</span>);
+        throws(<span class="hljs-string">'Buttercup\Protects\Tests\BasketLimitReached'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">()</span> <span class="hljs-title">use</span><span class="hljs-params">(<span class="hljs-variable">$basket</span>)</span> </span>{
+            <span class="hljs-variable">$basket</span><span class="hljs-variable">-&gt;addProduct</span>(<span class="hljs-keyword">new</span> ProductId(<span class="hljs-string">'TPB4'</span>), <span class="hljs-string">"The video game"</span>);
         })
     );
 };</pre></div></div>
@@ -154,13 +154,13 @@ Let’s write a test that proves that the a <code>BasketLimitReached</code> exce
             </div>
             
             <div class="content"><div class='highlight'><pre><span class="hljs-keyword">final</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">BasketV2</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">RecordsEvents</span>
-{</span>
+</span>{
     <span class="hljs-keyword">private</span> <span class="hljs-variable">$productCount</span>;
 
     <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">pickUp</span><span class="hljs-params">(BasketId <span class="hljs-variable">$basketId</span>)</span>
-    {</span>
+    </span>{
         <span class="hljs-variable">$basket</span> = <span class="hljs-keyword">new</span> BasketV2(<span class="hljs-variable">$basketId</span>);
-        <span class="hljs-variable">$basket</span>-&gt;recordThat(
+        <span class="hljs-variable">$basket</span><span class="hljs-variable">-&gt;recordThat</span>(
             <span class="hljs-keyword">new</span> BasketWasPickedUp(<span class="hljs-variable">$basketId</span>)
         );</pre></div></div>
             
@@ -177,12 +177,12 @@ Let’s write a test that proves that the a <code>BasketLimitReached</code> exce
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>        <span class="hljs-variable">$basket</span>-&gt;productCount = <span class="hljs-number">0</span>;
+            <div class="content"><div class='highlight'><pre>        <span class="hljs-variable">$basket</span><span class="hljs-variable">-&gt;productCount</span> = <span class="hljs-number">0</span>;
         <span class="hljs-keyword">return</span> <span class="hljs-variable">$basket</span>;
     }
 
     <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">addProduct</span><span class="hljs-params">(ProductId <span class="hljs-variable">$productId</span>, <span class="hljs-variable">$name</span>)</span>
-    {</span></pre></div></div>
+    </span>{</pre></div></div>
             
         </li>
         
@@ -197,7 +197,7 @@ Let’s write a test that proves that the a <code>BasketLimitReached</code> exce
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>        <span class="hljs-variable">$this</span>-&gt;guardProductLimit();</pre></div></div>
+            <div class="content"><div class='highlight'><pre>        <span class="hljs-variable">$this</span><span class="hljs-variable">-&gt;guardProductLimit</span>();</pre></div></div>
             
         </li>
         
@@ -212,10 +212,10 @@ Let’s write a test that proves that the a <code>BasketLimitReached</code> exce
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>        <span class="hljs-variable">$this</span>-&gt;recordThat(
-            <span class="hljs-keyword">new</span> ProductWasAddedToBasket(<span class="hljs-variable">$this</span>-&gt;basketId, <span class="hljs-variable">$productId</span>, <span class="hljs-variable">$name</span>)
+            <div class="content"><div class='highlight'><pre>        <span class="hljs-variable">$this</span><span class="hljs-variable">-&gt;recordThat</span>(
+            <span class="hljs-keyword">new</span> ProductWasAddedToBasket(<span class="hljs-variable">$this</span><span class="hljs-variable">-&gt;basketId</span>, <span class="hljs-variable">$productId</span>, <span class="hljs-variable">$name</span>)
         );
-        ++<span class="hljs-variable">$this</span>-&gt;productCount;
+        ++<span class="hljs-variable">$this</span><span class="hljs-variable">-&gt;productCount</span>;
     }</pre></div></div>
             
         </li>
@@ -233,16 +233,16 @@ states the purpose.</p>
             </div>
             
             <div class="content"><div class='highlight'><pre>    <span class="hljs-keyword">private</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">guardProductLimit</span><span class="hljs-params">()</span>
-    {</span>
-        <span class="hljs-keyword">if</span> (<span class="hljs-variable">$this</span>-&gt;productCount &gt;= <span class="hljs-number">3</span>) {
+    </span>{
+        <span class="hljs-keyword">if</span> (<span class="hljs-variable">$this</span><span class="hljs-variable">-&gt;productCount</span> &gt;= <span class="hljs-number">3</span>) {
             <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> BasketLimitReached;
         }
     }
 
     <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">removeProduct</span><span class="hljs-params">(ProductId <span class="hljs-variable">$productId</span>)</span>
-    {</span>
-        <span class="hljs-variable">$this</span>-&gt;recordThat(
-            <span class="hljs-keyword">new</span> ProductWasRemovedFromBasket(<span class="hljs-variable">$this</span>-&gt;basketId, <span class="hljs-variable">$productId</span>)
+    </span>{
+        <span class="hljs-variable">$this</span><span class="hljs-variable">-&gt;recordThat</span>(
+            <span class="hljs-keyword">new</span> ProductWasRemovedFromBasket(<span class="hljs-variable">$this</span><span class="hljs-variable">-&gt;basketId</span>, <span class="hljs-variable">$productId</span>)
         );</pre></div></div>
             
         </li>
@@ -258,7 +258,7 @@ states the purpose.</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>        --<span class="hljs-variable">$this</span>-&gt;productCount;
+            <div class="content"><div class='highlight'><pre>        --<span class="hljs-variable">$this</span><span class="hljs-variable">-&gt;productCount</span>;
     }</pre></div></div>
             
         </li>
@@ -276,10 +276,10 @@ states the purpose.</p>
             
             <div class="content"><div class='highlight'><pre>    <span class="hljs-keyword">private</span> <span class="hljs-variable">$basketId</span>;
     <span class="hljs-keyword">private</span> <span class="hljs-variable">$latestRecordedEvents</span> = [];
-    <span class="hljs-keyword">private</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">__construct</span><span class="hljs-params">(BasketId <span class="hljs-variable">$basketId</span>)</span> {</span> <span class="hljs-variable">$this</span>-&gt;basketId = <span class="hljs-variable">$basketId</span>; }
-    <span class="hljs-keyword">private</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">recordThat</span><span class="hljs-params">(DomainEvent <span class="hljs-variable">$domainEvent</span>)</span> {</span> <span class="hljs-variable">$this</span>-&gt;latestRecordedEvents[] = <span class="hljs-variable">$domainEvent</span>; }
-    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">getRecordedEvents</span><span class="hljs-params">()</span> {</span> <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> DomainEvents(<span class="hljs-variable">$this</span>-&gt;latestRecordedEvents); }
-    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">clearRecordedEvents</span><span class="hljs-params">()</span> {</span> <span class="hljs-variable">$this</span>-&gt;latestRecordedEvents = []; }
+    <span class="hljs-keyword">private</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">__construct</span><span class="hljs-params">(BasketId <span class="hljs-variable">$basketId</span>)</span> </span>{ <span class="hljs-variable">$this</span><span class="hljs-variable">-&gt;basketId</span> = <span class="hljs-variable">$basketId</span>; }
+    <span class="hljs-keyword">private</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">recordThat</span><span class="hljs-params">(DomainEvent <span class="hljs-variable">$domainEvent</span>)</span> </span>{ <span class="hljs-variable">$this</span><span class="hljs-variable">-&gt;latestRecordedEvents</span>[] = <span class="hljs-variable">$domainEvent</span>; }
+    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">getRecordedEvents</span><span class="hljs-params">()</span> </span>{ <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> DomainEvents(<span class="hljs-variable">$this</span><span class="hljs-variable">-&gt;latestRecordedEvents</span>); }
+    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">clearRecordedEvents</span><span class="hljs-params">()</span> </span>{ <span class="hljs-variable">$this</span><span class="hljs-variable">-&gt;latestRecordedEvents</span> = []; }
 }</pre></div></div>
             
         </li>
@@ -295,7 +295,7 @@ states the purpose.</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">final</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">BasketLimitReached</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Exception</span> {</span>}
+            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">final</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">BasketLimitReached</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Exception</span> </span>{}
 
 <span class="hljs-variable">$test</span>();</pre></div></div>
             

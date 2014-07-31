@@ -111,7 +111,7 @@ to help us to proceed to the next part. The interface consists of a <code>commit
 <span class="hljs-keyword">use</span> <span class="hljs-title">Buttercup</span>\<span class="hljs-title">Protects</span>\<span class="hljs-title">IdentifiesAggregate</span>;
 
 <span class="hljs-class"><span class="hljs-keyword">interface</span> <span class="hljs-title">EventStore</span>
-{</span></pre></div></div>
+</span>{</pre></div></div>
             
         </li>
         
@@ -131,7 +131,7 @@ Usually, a commit will consist of events from a single operation on a single <co
      *<span class="hljs-phpdoc"> @param</span> DomainEvents $events
      *<span class="hljs-phpdoc"> @return</span> void
      */</span>
-    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">commit</span><span class="hljs-params">(DomainEvents <span class="hljs-variable">$events</span>)</span>;</span></pre></div></div>
+    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">commit</span><span class="hljs-params">(DomainEvents <span class="hljs-variable">$events</span>)</span></span>;</pre></div></div>
             
         </li>
         
@@ -151,11 +151,11 @@ single Aggregate instance, identified by an id.</p>
      *<span class="hljs-phpdoc"> @param</span> IdentifiesAggregate $id
      *<span class="hljs-phpdoc"> @return</span> AggregateHistory
      */</span>
-    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">getAggregateHistoryFor</span><span class="hljs-params">(IdentifiesAggregate <span class="hljs-variable">$id</span>)</span>;</span>
+    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">getAggregateHistoryFor</span><span class="hljs-params">(IdentifiesAggregate <span class="hljs-variable">$id</span>)</span></span>;
 }
 
 <span class="hljs-keyword">final</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">InMemoryEventStore</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">EventStore</span>
-{</span></pre></div></div>
+</span>{</pre></div></div>
             
         </li>
         
@@ -173,14 +173,14 @@ single Aggregate instance, identified by an id.</p>
             <div class="content"><div class='highlight'><pre>    <span class="hljs-keyword">private</span> <span class="hljs-variable">$events</span> = [];
 
     <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">commit</span><span class="hljs-params">(DomainEvents <span class="hljs-variable">$events</span>)</span>
-    {</span>
+    </span>{
         <span class="hljs-keyword">foreach</span> (<span class="hljs-variable">$events</span> <span class="hljs-keyword">as</span> <span class="hljs-variable">$event</span>) {
-            <span class="hljs-variable">$this</span>-&gt;events[] = <span class="hljs-variable">$event</span>;
+            <span class="hljs-variable">$this</span><span class="hljs-variable">-&gt;events</span>[] = <span class="hljs-variable">$event</span>;
         }
     }
 
     <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">getAggregateHistoryFor</span><span class="hljs-params">(IdentifiesAggregate <span class="hljs-variable">$id</span>)</span>
-    {</span></pre></div></div>
+    </span>{</pre></div></div>
             
         </li>
         
@@ -198,8 +198,8 @@ single Aggregate instance, identified by an id.</p>
             <div class="content"><div class='highlight'><pre>        <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> AggregateHistory(
             <span class="hljs-variable">$id</span>,
             array_filter(
-                <span class="hljs-variable">$this</span>-&gt;events,
-                <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">(DomainEvent <span class="hljs-variable">$event</span>)</span> <span class="hljs-title">use</span> <span class="hljs-params">(<span class="hljs-variable">$id</span>)</span> {</span> <span class="hljs-keyword">return</span> <span class="hljs-variable">$event</span>-&gt;getAggregateId()-&gt;equals(<span class="hljs-variable">$id</span>); }
+                <span class="hljs-variable">$this</span><span class="hljs-variable">-&gt;events</span>,
+                <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">(DomainEvent <span class="hljs-variable">$event</span>)</span> <span class="hljs-title">use</span> <span class="hljs-params">(<span class="hljs-variable">$id</span>)</span> </span>{ <span class="hljs-keyword">return</span> <span class="hljs-variable">$event</span><span class="hljs-variable">-&gt;getAggregateId</span>()<span class="hljs-variable">-&gt;equals</span>(<span class="hljs-variable">$id</span>); }
             ));
     }
 }</pre></div></div>

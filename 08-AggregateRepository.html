@@ -110,12 +110,12 @@
 <span class="hljs-keyword">use</span> <span class="hljs-title">Buttercup</span>\<span class="hljs-title">Protects</span>\<span class="hljs-title">Tests</span>\<span class="hljs-title">Misc</span>\<span class="hljs-title">ProductId</span>;
 
 <span class="hljs-keyword">final</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">BasketRepository</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">AggregateRepository</span>
-{</span>
+</span>{
     <span class="hljs-keyword">private</span> <span class="hljs-variable">$eventStore</span>;
 
     <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">__construct</span><span class="hljs-params">(EventStore <span class="hljs-variable">$eventStore</span>)</span>
-    {</span>
-        <span class="hljs-variable">$this</span>-&gt;eventStore = <span class="hljs-variable">$eventStore</span>;
+    </span>{
+        <span class="hljs-variable">$this</span><span class="hljs-variable">-&gt;eventStore</span> = <span class="hljs-variable">$eventStore</span>;
     }
 
     <span class="hljs-comment">/**
@@ -123,7 +123,7 @@
      *<span class="hljs-phpdoc"> @return</span> void
      */</span>
     <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">add</span><span class="hljs-params">(RecordsEvents <span class="hljs-variable">$aggregate</span>)</span>
-    {</span></pre></div></div>
+    </span>{</pre></div></div>
             
         </li>
         
@@ -138,9 +138,9 @@
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>        <span class="hljs-variable">$events</span> = <span class="hljs-variable">$aggregate</span>-&gt;getRecordedEvents();
-        <span class="hljs-variable">$this</span>-&gt;eventStore-&gt;commit(<span class="hljs-variable">$events</span>);
-        <span class="hljs-variable">$aggregate</span>-&gt;clearRecordedEvents();
+            <div class="content"><div class='highlight'><pre>        <span class="hljs-variable">$events</span> = <span class="hljs-variable">$aggregate</span><span class="hljs-variable">-&gt;getRecordedEvents</span>();
+        <span class="hljs-variable">$this</span><span class="hljs-variable">-&gt;eventStore</span><span class="hljs-variable">-&gt;commit</span>(<span class="hljs-variable">$events</span>);
+        <span class="hljs-variable">$aggregate</span><span class="hljs-variable">-&gt;clearRecordedEvents</span>();
     }
 
     <span class="hljs-comment">/**
@@ -148,7 +148,7 @@
      *<span class="hljs-phpdoc"> @return</span> Basket
      */</span>
     <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">get</span><span class="hljs-params">(IdentifiesAggregate <span class="hljs-variable">$aggregateId</span>)</span>
-    {</span></pre></div></div>
+    </span>{</pre></div></div>
             
         </li>
         
@@ -164,7 +164,7 @@ that to the complexity of traditional ORMs.</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>        <span class="hljs-variable">$aggregateHistory</span> = <span class="hljs-variable">$this</span>-&gt;eventStore-&gt;getAggregateHistoryFor(<span class="hljs-variable">$aggregateId</span>);
+            <div class="content"><div class='highlight'><pre>        <span class="hljs-variable">$aggregateHistory</span> = <span class="hljs-variable">$this</span><span class="hljs-variable">-&gt;eventStore</span><span class="hljs-variable">-&gt;getAggregateHistoryFor</span>(<span class="hljs-variable">$aggregateId</span>);
         <span class="hljs-keyword">return</span> Basketv4::reconstituteFrom(<span class="hljs-variable">$aggregateHistory</span>);
     }
 }
@@ -172,11 +172,11 @@ that to the complexity of traditional ORMs.</p>
 
 <span class="hljs-variable">$basketId</span> = BasketId::generate();
 <span class="hljs-variable">$basket</span> = BasketV4::pickUp(<span class="hljs-variable">$basketId</span>);
-<span class="hljs-variable">$basket</span>-&gt;addProduct(ProductId::fromString(<span class="hljs-string">'TPB01'</span>), <span class="hljs-string">"The Princess Bride"</span>);
+<span class="hljs-variable">$basket</span><span class="hljs-variable">-&gt;addProduct</span>(ProductId::fromString(<span class="hljs-string">'TPB01'</span>), <span class="hljs-string">"The Princess Bride"</span>);
 
 <span class="hljs-variable">$baskets</span> = <span class="hljs-keyword">new</span> BasketRepository(<span class="hljs-keyword">new</span> InMemoryEventStore());
-<span class="hljs-variable">$baskets</span>-&gt;add(<span class="hljs-variable">$basket</span>);
-<span class="hljs-variable">$reconstitutedBasket</span> = <span class="hljs-variable">$baskets</span>-&gt;get(<span class="hljs-variable">$basketId</span>);
+<span class="hljs-variable">$baskets</span><span class="hljs-variable">-&gt;add</span>(<span class="hljs-variable">$basket</span>);
+<span class="hljs-variable">$reconstitutedBasket</span> = <span class="hljs-variable">$baskets</span><span class="hljs-variable">-&gt;get</span>(<span class="hljs-variable">$basketId</span>);
 
 it(<span class="hljs-string">'should reconstitute a Basket to its state after persisting it'</span>,
     <span class="hljs-variable">$basket</span> == <span class="hljs-variable">$reconstitutedBasket</span>

@@ -113,17 +113,17 @@ of elements that make up the Aggregate.</p>
 <span class="hljs-keyword">use</span> <span class="hljs-title">Buttercup</span>\<span class="hljs-title">Protects</span>\<span class="hljs-title">IsEventSourced</span>;
 <span class="hljs-keyword">use</span> <span class="hljs-title">Buttercup</span>\<span class="hljs-title">Protects</span>\<span class="hljs-title">RecordsEvents</span>;
 <span class="hljs-keyword">use</span> <span class="hljs-title">Buttercup</span>\<span class="hljs-title">Protects</span>\<span class="hljs-title">Tests</span>\<span class="hljs-title">Misc</span>\<span class="hljs-title">ProductId</span>;
-<span class="hljs-keyword">use</span> <span class="hljs-title">Verraes</span>\<span class="hljs-title">ClassFunctions</span>\<span class="hljs-title">ClassFunctions</span>;
+<span class="hljs-keyword">use</span> <span class="hljs-title">Buttercup</span>\<span class="hljs-title">Protects</span>\<span class="hljs-title">Tests</span>\<span class="hljs-title">Misc</span>\<span class="hljs-title">When</span>;
 
-<span class="hljs-variable">$test</span> = <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span>
+<span class="hljs-variable">$test</span> = <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> </span>{
     <span class="hljs-variable">$basketId</span> = BasketId::generate();
     <span class="hljs-variable">$basket</span> = BasketV4::pickUp(<span class="hljs-variable">$basketId</span>);
     <span class="hljs-variable">$productId</span> = <span class="hljs-keyword">new</span> ProductId(<span class="hljs-string">'TPB1'</span>);
-    <span class="hljs-variable">$basket</span>-&gt;addProduct(<span class="hljs-variable">$productId</span>, <span class="hljs-string">"The Princess Bride"</span>);
-    <span class="hljs-variable">$basket</span>-&gt;addProduct(<span class="hljs-keyword">new</span> ProductId(<span class="hljs-string">'TPB2'</span>), <span class="hljs-string">"The book"</span>);
-    <span class="hljs-variable">$basket</span>-&gt;removeProduct(<span class="hljs-variable">$productId</span>);
-    <span class="hljs-variable">$events</span> = <span class="hljs-variable">$basket</span>-&gt;getRecordedEvents();
-    <span class="hljs-variable">$basket</span>-&gt;clearRecordedEvents();</pre></div></div>
+    <span class="hljs-variable">$basket</span><span class="hljs-variable">-&gt;addProduct</span>(<span class="hljs-variable">$productId</span>, <span class="hljs-string">"The Princess Bride"</span>);
+    <span class="hljs-variable">$basket</span><span class="hljs-variable">-&gt;addProduct</span>(<span class="hljs-keyword">new</span> ProductId(<span class="hljs-string">'TPB2'</span>), <span class="hljs-string">"The book"</span>);
+    <span class="hljs-variable">$basket</span><span class="hljs-variable">-&gt;removeProduct</span>(<span class="hljs-variable">$productId</span>);
+    <span class="hljs-variable">$events</span> = <span class="hljs-variable">$basket</span><span class="hljs-variable">-&gt;getRecordedEvents</span>();
+    <span class="hljs-variable">$basket</span><span class="hljs-variable">-&gt;clearRecordedEvents</span>();</pre></div></div>
             
         </li>
         
@@ -161,7 +161,8 @@ of elements that make up the Aggregate.</p>
             </div>
             
             <div class="content"><div class='highlight'><pre><span class="hljs-keyword">final</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">BasketV4</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">RecordsEvents</span>, <span class="hljs-title">IsEventSourced</span>
-{</span></pre></div></div>
+</span>{
+    <span class="hljs-keyword">use</span> <span class="hljs-title">When</span>;</pre></div></div>
             
         </li>
         
@@ -184,7 +185,7 @@ we suspended it temporarily by unloading it from memory. The difference is subtl
      *<span class="hljs-phpdoc"> @return</span> RecordsEvents
      */</span>
     <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">reconstituteFrom</span><span class="hljs-params">(AggregateHistory <span class="hljs-variable">$aggregateHistory</span>)</span>
-    {</span></pre></div></div>
+    </span>{</pre></div></div>
             
         </li>
         
@@ -200,7 +201,7 @@ fetching its identifier.</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>        <span class="hljs-variable">$basketId</span> = <span class="hljs-variable">$aggregateHistory</span>-&gt;getAggregateId();</pre></div></div>
+            <div class="content"><div class='highlight'><pre>        <span class="hljs-variable">$basketId</span> = <span class="hljs-variable">$aggregateHistory</span><span class="hljs-variable">-&gt;getAggregateId</span>();</pre></div></div>
             
         </li>
         
@@ -249,7 +250,7 @@ events to be recorded a second time.</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>            <span class="hljs-variable">$basket</span>-&gt;apply(<span class="hljs-variable">$event</span>);
+            <div class="content"><div class='highlight'><pre>            <span class="hljs-variable">$basket</span><span class="hljs-variable">-&gt;when</span>(<span class="hljs-variable">$event</span>);
         }</pre></div></div>
             
         </li>
@@ -266,10 +267,7 @@ events to be recorded a second time.</p>
             </div>
             
             <div class="content"><div class='highlight'><pre>        <span class="hljs-keyword">return</span> <span class="hljs-variable">$basket</span>;
-    }
-
-    <span class="hljs-keyword">private</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">apply</span><span class="hljs-params">(DomainEvent <span class="hljs-variable">$event</span>)</span>
-    {</span></pre></div></div>
+    }</pre></div></div>
             
         </li>
         
@@ -280,14 +278,18 @@ events to be recorded a second time.</p>
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-11">&#182;</a>
               </div>
-              <p>Unfortunately we don’t have method overloading in PHP, so we can either use a <code>switch</code> clause, or delegate
-to methods based on the class names of the events. Let’s do the latter.</p>
+              <p>Inside each <code>whenEventName()</code> method, we manipulate the state. The first one is not very interesting.</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>        <span class="hljs-variable">$method</span> = <span class="hljs-string">'apply'</span> . ClassFunctions::short(<span class="hljs-variable">$event</span>);
-        <span class="hljs-variable">$this</span>-&gt;<span class="hljs-variable">$method</span>(<span class="hljs-variable">$event</span>);
-    }</pre></div></div>
+            <div class="content"><div class='highlight'><pre>    <span class="hljs-keyword">private</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">whenBasketWasPickedUp</span><span class="hljs-params">(BasketWasPickedUp <span class="hljs-variable">$event</span>)</span>
+    </span>{
+        <span class="hljs-variable">$this</span><span class="hljs-variable">-&gt;productCount</span> = <span class="hljs-number">0</span>;
+        <span class="hljs-variable">$this</span><span class="hljs-variable">-&gt;products</span> = [];
+    }
+
+    <span class="hljs-keyword">private</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">whenProductWasAddedToBasket</span><span class="hljs-params">(ProductWasAddedToBasket <span class="hljs-variable">$event</span>)</span>
+    </span>{</pre></div></div>
             
         </li>
         
@@ -298,18 +300,29 @@ to methods based on the class names of the events. Let’s do the latter.</p>
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-12">&#182;</a>
               </div>
-              <p>Inside each <code>applyEventName()</code> method, we manipulate the state. The first one is not very interesting.</p>
+              <p>Remember that all of this code used to be in <code>addProduct()</code></p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>    <span class="hljs-keyword">private</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">applyBasketWasPickedUp</span><span class="hljs-params">(BasketWasPickedUp <span class="hljs-variable">$event</span>)</span>
-    {</span>
-        <span class="hljs-variable">$this</span>-&gt;productCount = <span class="hljs-number">0</span>;
-        <span class="hljs-variable">$this</span>-&gt;products = [];
+            <div class="content"><div class='highlight'><pre>        <span class="hljs-variable">$productId</span> = <span class="hljs-variable">$event</span><span class="hljs-variable">-&gt;getProductId</span>();
+        <span class="hljs-keyword">if</span>(!<span class="hljs-variable">$this</span><span class="hljs-variable">-&gt;productIsInBasket</span>(<span class="hljs-variable">$productId</span>)) {
+            <span class="hljs-variable">$this</span><span class="hljs-variable">-&gt;products</span>[(string) <span class="hljs-variable">$productId</span>] = <span class="hljs-number">0</span>;
+        }
+
+        ++<span class="hljs-variable">$this</span><span class="hljs-variable">-&gt;products</span>[(string) <span class="hljs-variable">$productId</span>];
+        ++<span class="hljs-variable">$this</span><span class="hljs-variable">-&gt;productCount</span>;
     }
 
-    <span class="hljs-keyword">private</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">applyProductWasAddedToBasket</span><span class="hljs-params">(ProductWasAddedToBasket <span class="hljs-variable">$event</span>)</span>
-    {</span></pre></div></div>
+    <span class="hljs-keyword">private</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">whenProductWasRemovedFromBasket</span><span class="hljs-params">(ProductWasRemovedFromBasket <span class="hljs-variable">$event</span>)</span>
+    </span>{
+        --<span class="hljs-variable">$this</span><span class="hljs-variable">-&gt;products</span>[(string) <span class="hljs-variable">$event</span><span class="hljs-variable">-&gt;getProductId</span>()];
+        --<span class="hljs-variable">$this</span><span class="hljs-variable">-&gt;productCount</span>;
+    }
+
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">pickUp</span><span class="hljs-params">(BasketId <span class="hljs-variable">$basketId</span>)</span>
+    </span>{
+        <span class="hljs-variable">$basket</span> = <span class="hljs-keyword">new</span> BasketV4(<span class="hljs-variable">$basketId</span>);
+        <span class="hljs-variable">$basket</span><span class="hljs-variable">-&gt;recordThat</span>(<span class="hljs-keyword">new</span> BasketWasPickedUp(<span class="hljs-variable">$basketId</span>));</pre></div></div>
             
         </li>
         
@@ -320,29 +333,18 @@ to methods based on the class names of the events. Let’s do the latter.</p>
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-13">&#182;</a>
               </div>
-              <p>Remember that all of this code used to be in <code>addProduct()</code></p>
+              <p>We moved the code that was on this line, to the <code>whenBasketWasPickedUp()</code> method.</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>        <span class="hljs-variable">$productId</span> = <span class="hljs-variable">$event</span>-&gt;getProductId();
-        <span class="hljs-keyword">if</span>(!<span class="hljs-variable">$this</span>-&gt;productIsInBasket(<span class="hljs-variable">$productId</span>)) {
-            <span class="hljs-variable">$this</span>-&gt;products[(string) <span class="hljs-variable">$productId</span>] = <span class="hljs-number">0</span>;
-        }
-
-        ++<span class="hljs-variable">$this</span>-&gt;products[(string) <span class="hljs-variable">$productId</span>];
-        ++<span class="hljs-variable">$this</span>-&gt;productCount;
+            <div class="content"><div class='highlight'><pre>        <span class="hljs-keyword">return</span> <span class="hljs-variable">$basket</span>;
     }
-
-    <span class="hljs-keyword">private</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">applyProductWasRemovedFromBasket</span><span class="hljs-params">(ProductWasRemovedFromBasket <span class="hljs-variable">$event</span>)</span>
-    {</span>
-        --<span class="hljs-variable">$this</span>-&gt;products[(string) <span class="hljs-variable">$event</span>-&gt;getProductId()];
-        --<span class="hljs-variable">$this</span>-&gt;productCount;
-    }
-
-    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">pickUp</span><span class="hljs-params">(BasketId <span class="hljs-variable">$basketId</span>)</span>
-    {</span>
-        <span class="hljs-variable">$basket</span> = <span class="hljs-keyword">new</span> BasketV4(<span class="hljs-variable">$basketId</span>);
-        <span class="hljs-variable">$basket</span>-&gt;recordThat(<span class="hljs-keyword">new</span> BasketWasPickedUp(<span class="hljs-variable">$basketId</span>));</pre></div></div>
+    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">addProduct</span><span class="hljs-params">(ProductId <span class="hljs-variable">$productId</span>, <span class="hljs-variable">$name</span>)</span>
+    </span>{
+        <span class="hljs-variable">$this</span><span class="hljs-variable">-&gt;guardProductLimit</span>();
+        <span class="hljs-variable">$this</span><span class="hljs-variable">-&gt;recordThat</span>(
+            <span class="hljs-keyword">new</span> ProductWasAddedToBasket(<span class="hljs-variable">$this</span><span class="hljs-variable">-&gt;basketId</span>, <span class="hljs-variable">$productId</span>, <span class="hljs-variable">$name</span>)
+        );</pre></div></div>
             
         </li>
         
@@ -353,17 +355,20 @@ to methods based on the class names of the events. Let’s do the latter.</p>
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-14">&#182;</a>
               </div>
-              <p>We moved the code that was on this line, to the <code>applyBasketWasPickedUp()</code> method.</p>
+              <p>The code that used to be here, is now in `whenProductWasAddedToBasket().</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>        <span class="hljs-keyword">return</span> <span class="hljs-variable">$basket</span>;
-    }
-    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">addProduct</span><span class="hljs-params">(ProductId <span class="hljs-variable">$productId</span>, <span class="hljs-variable">$name</span>)</span>
-    {</span>
-        <span class="hljs-variable">$this</span>-&gt;guardProductLimit();
-        <span class="hljs-variable">$this</span>-&gt;recordThat(
-            <span class="hljs-keyword">new</span> ProductWasAddedToBasket(<span class="hljs-variable">$this</span>-&gt;basketId, <span class="hljs-variable">$productId</span>, <span class="hljs-variable">$name</span>)
+            <div class="content"><div class='highlight'><pre>    }
+
+    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">removeProduct</span><span class="hljs-params">(ProductId <span class="hljs-variable">$productId</span>)</span>
+    </span>{
+        <span class="hljs-keyword">if</span>(! <span class="hljs-variable">$this</span><span class="hljs-variable">-&gt;productIsInBasket</span>(<span class="hljs-variable">$productId</span>)) {
+            <span class="hljs-keyword">return</span>;
+        }
+
+        <span class="hljs-variable">$this</span><span class="hljs-variable">-&gt;recordThat</span>(
+            <span class="hljs-keyword">new</span> ProductWasRemovedFromBasket(<span class="hljs-variable">$this</span><span class="hljs-variable">-&gt;basketId</span>, <span class="hljs-variable">$productId</span>)
         );</pre></div></div>
             
         </li>
@@ -375,21 +380,15 @@ to methods based on the class names of the events. Let’s do the latter.</p>
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-15">&#182;</a>
               </div>
-              <p>The code from this line, is now in `applyProductWasAddedToBasket().</p>
+              <p>And this code moved to <code>whenProductWasRemovedFromBasket()</code>.</p>
 
             </div>
             
             <div class="content"><div class='highlight'><pre>    }
 
-    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">removeProduct</span><span class="hljs-params">(ProductId <span class="hljs-variable">$productId</span>)</span>
-    {</span>
-        <span class="hljs-keyword">if</span>(! <span class="hljs-variable">$this</span>-&gt;productIsInBasket(<span class="hljs-variable">$productId</span>)) {
-            <span class="hljs-keyword">return</span>;
-        }
-
-        <span class="hljs-variable">$this</span>-&gt;recordThat(
-            <span class="hljs-keyword">new</span> ProductWasRemovedFromBasket(<span class="hljs-variable">$this</span>-&gt;basketId, <span class="hljs-variable">$productId</span>)
-        );</pre></div></div>
+    <span class="hljs-keyword">private</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">recordThat</span><span class="hljs-params">(DomainEvent <span class="hljs-variable">$domainEvent</span>)</span>
+    </span>{
+        <span class="hljs-variable">$this</span><span class="hljs-variable">-&gt;latestRecordedEvents</span>[] = <span class="hljs-variable">$domainEvent</span>;</pre></div></div>
             
         </li>
         
@@ -400,15 +399,13 @@ to methods based on the class names of the events. Let’s do the latter.</p>
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-16">&#182;</a>
               </div>
-              <p>And this code moved to <code>applyProductWasRemovedFromBasket()</code></p>
+              <p>Finally, we make sure that newly recorded events are still being applied to the state.
+when($domainEvent) delegates to whenDomainEvent($domainEvent)</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>    }
-
-    <span class="hljs-keyword">private</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">recordThat</span><span class="hljs-params">(DomainEvent <span class="hljs-variable">$domainEvent</span>)</span>
-    {</span>
-        <span class="hljs-variable">$this</span>-&gt;latestRecordedEvents[] = <span class="hljs-variable">$domainEvent</span>;</pre></div></div>
+            <div class="content"><div class='highlight'><pre>        <span class="hljs-variable">$this</span><span class="hljs-variable">-&gt;when</span>(<span class="hljs-variable">$domainEvent</span>);
+    }</pre></div></div>
             
         </li>
         
@@ -419,22 +416,6 @@ to methods based on the class names of the events. Let’s do the latter.</p>
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-17">&#182;</a>
               </div>
-              <p>Finally, we make sure that newly recorded events are still being applied to the state.</p>
-
-            </div>
-            
-            <div class="content"><div class='highlight'><pre>        <span class="hljs-variable">$this</span>-&gt;apply(<span class="hljs-variable">$domainEvent</span>);
-    }</pre></div></div>
-            
-        </li>
-        
-        
-        <li id="section-18">
-            <div class="annotation">
-              
-              <div class="pilwrap ">
-                <a class="pilcrow" href="#section-18">&#182;</a>
-              </div>
               <p>no changes here</p>
 
             </div>
@@ -443,11 +424,11 @@ to methods based on the class names of the events. Let’s do the latter.</p>
     <span class="hljs-keyword">private</span> <span class="hljs-variable">$productCount</span>;
     <span class="hljs-keyword">private</span> <span class="hljs-variable">$basketId</span>;
     <span class="hljs-keyword">private</span> <span class="hljs-variable">$latestRecordedEvents</span> = [];
-    <span class="hljs-keyword">private</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">productIsInBasket</span><span class="hljs-params">(ProductId <span class="hljs-variable">$productId</span>)</span> {</span> <span class="hljs-keyword">return</span> array_key_exists((string) <span class="hljs-variable">$productId</span>, <span class="hljs-variable">$this</span>-&gt;products) &amp;&amp; <span class="hljs-variable">$this</span>-&gt;products[(string)<span class="hljs-variable">$productId</span>] &gt; <span class="hljs-number">0</span>; }
-    <span class="hljs-keyword">private</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">guardProductLimit</span><span class="hljs-params">()</span> {</span> <span class="hljs-keyword">if</span> (<span class="hljs-variable">$this</span>-&gt;productCount &gt;= <span class="hljs-number">3</span>) { <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> BasketLimitReached; } }
-    <span class="hljs-keyword">private</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">__construct</span><span class="hljs-params">(BasketId <span class="hljs-variable">$basketId</span>)</span> {</span> <span class="hljs-variable">$this</span>-&gt;basketId = <span class="hljs-variable">$basketId</span>; }
-    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">getRecordedEvents</span><span class="hljs-params">()</span> {</span> <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> DomainEvents(<span class="hljs-variable">$this</span>-&gt;latestRecordedEvents); }
-    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">clearRecordedEvents</span><span class="hljs-params">()</span> {</span> <span class="hljs-variable">$this</span>-&gt;latestRecordedEvents = []; }
+    <span class="hljs-keyword">private</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">productIsInBasket</span><span class="hljs-params">(ProductId <span class="hljs-variable">$productId</span>)</span> </span>{ <span class="hljs-keyword">return</span> array_key_exists((string) <span class="hljs-variable">$productId</span>, <span class="hljs-variable">$this</span><span class="hljs-variable">-&gt;products</span>) &amp;&amp; <span class="hljs-variable">$this</span><span class="hljs-variable">-&gt;products</span>[(string)<span class="hljs-variable">$productId</span>] &gt; <span class="hljs-number">0</span>; }
+    <span class="hljs-keyword">private</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">guardProductLimit</span><span class="hljs-params">()</span> </span>{ <span class="hljs-keyword">if</span> (<span class="hljs-variable">$this</span><span class="hljs-variable">-&gt;productCount</span> &gt;= <span class="hljs-number">3</span>) { <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> BasketLimitReached; } }
+    <span class="hljs-keyword">private</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">__construct</span><span class="hljs-params">(BasketId <span class="hljs-variable">$basketId</span>)</span> </span>{ <span class="hljs-variable">$this</span><span class="hljs-variable">-&gt;basketId</span> = <span class="hljs-variable">$basketId</span>; }
+    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">getRecordedEvents</span><span class="hljs-params">()</span> </span>{ <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> DomainEvents(<span class="hljs-variable">$this</span><span class="hljs-variable">-&gt;latestRecordedEvents</span>); }
+    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">clearRecordedEvents</span><span class="hljs-params">()</span> </span>{ <span class="hljs-variable">$this</span><span class="hljs-variable">-&gt;latestRecordedEvents</span> = []; }
 
 }
 
